@@ -1,0 +1,5 @@
+#assets
+dev/sezac/assets/*
+
+#runtime
+dev/sezac/protected/runtime/*
