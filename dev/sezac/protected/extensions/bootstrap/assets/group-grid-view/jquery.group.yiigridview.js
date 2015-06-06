@@ -130,7 +130,7 @@
 						delete params[settings.ajaxVar];
 						window.History.pushState(null, document.title, decodeURIComponent($.param.querystring(url.substr(0, url.indexOf('?')), params)));
 					} else {
-						$('#' + id).yiiGroupGridView('update', {data: data});
+						$('#' + id).yiiGridView('update', {data: data});
 					}
 					return false;
 				});
@@ -253,7 +253,7 @@
 
 				options = $.extend({
 					type: settings.ajaxType,
-					url: $grid.yiiGroupGridView('getUrl'),
+					url: $grid.yiiGridView('getUrl'),
 					success: function (data) {
 						var $data = $('<div>' + data + '</div>');
 						$.each(settings.ajaxUpdate, function (i, el) {

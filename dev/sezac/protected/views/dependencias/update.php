@@ -1,13 +1,9 @@
+<br>
 <?php
-/* @var $this DependenciasController */
-/* @var $model Dependencias */
 $this->breadcrumbs=array(
-        'Administrador',
 	'Dependencias'=>array('admin'),
-	'Actualizar '.$model->abreviatura,
+	'Actualizar '.$model->abreviatura
 );
-
-
 ?>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form',array('model'=>$model)); ?>

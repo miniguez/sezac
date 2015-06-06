@@ -47,12 +47,6 @@ class TbNavbar extends CWidget {
 	 * @var array the HTML attributes for the brand link.
 	 */
 	public $brandOptions = array();
-        
-        /**
-         * SLK Martell
-	 * @var string ubicación de la imagen logo.
-	 */
-        public $brandImage;
 
 	/**
 	 * @var array navigation items.
@@ -155,11 +149,9 @@ class TbNavbar extends CWidget {
 		}
 		
 		if ($this->brand !== false) {
-			if ($this->brandUrl !== false && !isset($this->brandImage)) { //SLK Martell
+			if ($this->brandUrl !== false) {
 				echo CHtml::openTag('a', $this->brandOptions) . $this->brand . '</a>';
-			} else if ($this->brandUrl !== false && isset($this->brandImage)) { //SLK Martell
-                                echo CHtml::openTag('a', $this->brandOptions). '<img alt="Brand" src="'.$this->brandImage.'"></a>';
-                        } else {
+			} else {
 				unset($this->brandOptions['href']); // spans cannot have a href attribute
 				echo CHtml::openTag('span', $this->brandOptions) . $this->brand . '</span>';
 			}

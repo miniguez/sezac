@@ -1,37 +1,40 @@
-<?php
-/* @var $this DependenciasController */
-/* @var $model Dependencias */
-/* @var $form CActiveForm */
-?>
-
 <div class="form">
+<?php $form=$this->beginWidget(
+    'booster.widgets.TbActiveForm', array(
+        'id'=>'dependencias-form',
+        'type' => 'horizontal',
+        'htmlOptions' => array('class' => 'well'),
+    )
+); ?>
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'dependencias-form',	
-	'enableAjaxValidation'=>false,
-)); ?>
+<p class="help-block"><?php echo Yii::t('app', 'Fields with') ?>
+<span class="required">*</span><?php echo Yii::t('app', 'are required.') ?></p>
 
-	<p class="note">Campos con<span class="required">*</span> son requeridos.</p>
+<?php echo $form->errorSummary($model); ?>
 
-	<?php echo $form->errorSummary($model); ?>
+<?php echo $form->textFieldGroup($model,'nombre',array('wrapperHtmlOptions' => array(
+            'class' => 'col-sm-5',
+        ),'widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>180)))); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'nombre'); ?>
-		<?php echo $form->textField($model,'nombre',array('size'=>60,'maxlength'=>180)); ?>
-		<?php echo $form->error($model,'nombre'); ?>
-	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'abreviatura'); ?>
-		<?php echo $form->textField($model,'abreviatura',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'abreviatura'); ?>
-	</div>
+<?php echo $form->textFieldGroup($model,'abreviatura',array('wrapperHtmlOptions' => array(
+            'class' => 'col-sm-5',
+        ),'widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>45)))); ?>
 
-	<div class="row buttons">
-                <?php echo CHtml::submitButton('Cancelar' ); ?>
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Actualizar'); ?>
-	</div>
 
+<div class="form-actions">
+                <?php $this->widget('booster.widgets.TbButton', array(
+			'buttonType'=>'submit',
+			'context'=>'danger',
+                        'size' => 'small',
+			'label'=>'Cancelar',
+		)); ?>
+		<?php $this->widget('booster.widgets.TbButton', array(
+			'buttonType'=>'submit',
+			'context'=>'success',
+                        'size' => 'small',
+			'label'=>$model->isNewRecord ? 'Crear' : 'Guardar',
+		)); ?>
+</div>
 <?php $this->endWidget(); ?>
-
-</div><!-- form -->
+</div>

@@ -41,9 +41,6 @@ class TbModal extends CWidget {
 	 * @var array the HTML attributes for the widget container.
 	 */
 	public $htmlOptions = array();
-        
-        //SLK
-        public $large = false;
 
 	/**
 	 *### .init()
@@ -75,13 +72,7 @@ class TbModal extends CWidget {
 			}
 		}
 		echo CHtml::openTag('div', $this->htmlOptions);
-                //echo '<div class="modal-dialog modal-lg"><div class="modal-content">';
-                //SLK
-                if($this->large){
-                    echo '<div class="modal-dialog modal-lg"><div class="modal-content">';
-                } else {
-                    echo '<div class="modal-dialog"><div class="modal-content">';
-                }
+		echo '<div class="modal-dialog"><div class="modal-content">';
 	}
 
 	/**

@@ -6,47 +6,51 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
-	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Sezac',
-        'language'=>'es',    
-        'charset'=>'utf-8',
-
-        // Lineas para usar boostrap
-        'preload'=>array('log',
-            php_sapi_name() !== 'cli' ?   'bootstrap' : '',
-         ),
     
-	// preloading 'log' component
-	'preload'=>array('log'),
+    'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+    'name'=>'SEZAC',
+    'language'=>'es',
+    'theme'=>'blackboot', 
+    
 
-	// autoloading model and component classes
-	'import'=>array(
-		'application.models.*',
-		'application.components.*',
-                'application.extensions.*',
-	),
+    // preloading 'log' component
+        'preload'=>array('log',
+                                 php_sapi_name() !== 'cli'
+                                 ?   'bootstrap'
+                                 : '',
+                ),
 
-	'modules'=>array(
-		// uncomment the following to enable the Gii tool
-		
-		'gii' => array(
-                    'class'=>'system.gii.GiiModule',
-                    'password'=>'123',
-                    'generatorPaths' => array(				
-                        'booster.gii'			
-                    ),
-            ),      
-		
-	),
+    
+    
+    // autoloading model and component classes
+    'import'=>array(
+        'application.models.*',
+        'application.components.*',
+        'application.extensions.*'		
+    ),
 
-	// application components
-	'components'=>array(
-		'user'=>array(
-			// enable cookie-based authentication
-			'allowAutoLogin'=>true,
-		),
-		// uncomment the following to enable URLs in path-format
-		/*
+    
+    'modules'=>array(		
+        'gii' => array(
+            'class'=>'system.gii.GiiModule',
+            'password'=>'1234',
+            'generatorPaths' => array(				
+                'booster.gii'			
+                ),
+            ),    
+    ), 
+
+    // application components
+    'components'=>array(
+        'user'=>array(
+            // enable cookie-based authentication
+            'allowAutoLogin'=>true,
+        ),		
+        'bootstrap'=>array( 
+            'class'=>'ext.bootstrap.components.Booster'
+            ),
+        // uncomment the following to enable URLs in path-format
+        /*
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
@@ -56,47 +60,42 @@ return array(
 			),
 		),
 		*/
-		/*'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),*/
-		// uncomment the following to use a MySQL database
-		
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=sezac',
-			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
-			'charset' => 'utf8',
-		),
-		
-		'errorHandler'=>array(
-			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
-		),
-		'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
-				),
-				// uncomment the following to show log messages on web pages
-				/*
+        
+        // uncomment the following to use a MySQL database
+        
+        'db'=>array(            
+            'connectionString' => 'mysql:host=localhost;dbname=sezac',
+            'emulatePrepare' => true,               
+            'username' => 'root',                       
+            'password' => '',
+            'charset' => 'utf8',
+        ),
+        
+        'errorHandler'=>array(
+            // use 'site/error' action to display errors
+            'errorAction'=>'site/error',
+        ),
+        'log'=>array(
+            'class'=>'CLogRouter',
+            'routes'=>array(
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'error, warning',
+                ),
+                // uncomment the following to show log messages on web pages
+                /*
 				array(
 					'class'=>'CWebLogRoute',
 				),
 				*/
-			),
-		),
-            'bootstrap'=>array( 
-            'class'=>'ext.bootstrap.components.Booster'
-                ),
-	),
+            ),
+        ),
+    ),
 
-	// application-level parameters that can be accessed
-	// using Yii::app()->params['paramName']
-	'params'=>array(
-		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
-	),
+    // application-level parameters that can be accessed
+    // using Yii::app()->params['paramName']
+    'params'=>array(
+        // this is used in contact page
+        'adminEmail'=>'webmaster@example.com',
+    ),
 );

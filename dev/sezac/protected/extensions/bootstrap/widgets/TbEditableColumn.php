@@ -17,7 +17,7 @@ Yii::import('zii.widgets.grid.CDataColumn');
  *
  * @package widgets
  */
-class TbEditableColumn extends TbDataColumn
+class TbEditableColumn extends CDataColumn
 {
     /**
     * @var array editable config options.
@@ -145,10 +145,8 @@ class TbEditableColumn extends TbDataColumn
             return;
         } */
                 
-        /*echo '<td><div class="filter-container">';
+        echo '<td><div class="filter-container">';
         $this->renderFilterCellContent();
-        echo '</div></td>';*/
-        
-        parent::renderFilterCell();
+        echo '</div></td>';
     }       
 }
