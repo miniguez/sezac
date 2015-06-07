@@ -7,12 +7,12 @@
  *
  * @property string $id
  * @property string $nombre
- * @property string $idDependecia
+ * @property string $idDependencia
  * @property string $idEncargado
  *
  * The followings are the available model relations:
  * @property Programas[] $programases
- * @property Dependecias $idDependecia0
+ * @property Dependecias $idDependencia0
  * @property Encargados $idEncargado0
  */
 class UnidadesResponsables extends CActiveRecord
@@ -33,12 +33,12 @@ class UnidadesResponsables extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-        array('nombre, idDependecia, idEncargado', 'required'),
+        array('nombre, idDependencia, idEncargado', 'required'),
         array('nombre', 'length', 'max'=>45),
-        array('idDependecia, idEncargado', 'length', 'max'=>10),
+        array('idDependencia, idEncargado', 'length', 'max'=>10),
         // The following rule is used by search().
         // @todo Please remove those attributes that should not be searched.
-        array('id, nombre, idDependecia, idEncargado', 'safe', 'on'=>'search'),
+        array('id, nombre, idDependencia, idEncargado', 'safe', 'on'=>'search'),
         );
     }
 
@@ -51,7 +51,7 @@ class UnidadesResponsables extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
         'programases' => array(self::HAS_MANY, 'Programas', 'idUnidadesResponsable'),
-        'idDependecia0' => array(self::BELONGS_TO, 'Dependecias', 'idDependecia'),
+        'idDependencia0' => array(self::BELONGS_TO, 'Dependencias', 'idDependencia'),
         'idEncargado0' => array(self::BELONGS_TO, 'Encargados', 'idEncargado'),
         );
     }
@@ -64,8 +64,8 @@ class UnidadesResponsables extends CActiveRecord
         return array(
         'id' => 'ID',
         'nombre' => 'Nombre',
-        'idDependecia' => 'Id Dependecia',
-        'idEncargado' => 'Id Encargado',
+        'idDependencia' => 'Dependencia',
+        'idEncargado' => 'Encargado',
         );
     }
 
@@ -89,7 +89,7 @@ class UnidadesResponsables extends CActiveRecord
 
         $criteria->compare('id', $this->id, true);
         $criteria->compare('nombre', $this->nombre, true);
-        $criteria->compare('idDependecia', $this->idDependecia, true);
+        $criteria->compare('idDependencia', $this->idDependencia, true);
         $criteria->compare('idEncargado', $this->idEncargado, true);
 
         return new CActiveDataProvider(
