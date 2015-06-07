@@ -45,7 +45,16 @@ $this->widget(
                 'label'=>'Inicio', 
                 'url'=>array('/site/index')
             ),
-           
+            array(
+                'label'=>Yii::t('app','_CATALOGOS'),
+                'url' => '#',
+                'items' => array(
+                    array(
+                        'label' => Yii::t('app','_DEPENDENCIAS'), 
+                        'url' => array('/dependencias/admin')
+                    ),
+                )
+            ),
             array(
                 'label'=>Yii::t('app', 'iniciar sesion'), 
                 'url'=>array('/site/login'), 
