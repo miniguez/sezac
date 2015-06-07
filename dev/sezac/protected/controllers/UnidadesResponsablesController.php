@@ -35,7 +35,7 @@ class UnidadesResponsablesController extends Controller
         'users'=>array('*'),
         ),
         array('allow', // allow admin user to perform 'admin' and 'delete' actions
-        'actions'=>array('admin','delete'),
+        'actions'=>array('admin','delete','getEncargados'),
         'users'=>array('*'),
         ),
         array('deny',  // deny all users
@@ -64,20 +64,35 @@ class UnidadesResponsablesController extends Controller
     public function actionCreate()
     {
         $model=new UnidadesResponsables;
-
+        $arrDependencias = CHtml::listData(
+            Dependencias::model()->findAll(),
+            'id',
+            'nombre'
+        );
+        $arrEncargados = CHtml::listData(
+             Encargados::model()->findAll(),
+            'id',
+            'nombre'
+        );
+        if (isset($_POST["yt0"]) ) {
+            $this->redirect(array('admin'));
+        }
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
         if(isset($_POST['UnidadesResponsables'])) {
             $model->attributes=$_POST['UnidadesResponsables'];
             if($model->save()) {
-                $this->redirect(array('view','id'=>$model->id)); 
+                Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se creó correctamente.')); 
+                $this->redirect(array('admin')); 
             }
         }
 
         $this->render(
             'create', array(
-            'model'=>$model,
+                'model'=>$model,
+                'arrDependencias'=>$arrDependencias,
+                'arrEncargados'=>$arrEncargados
             )
         );
     }
@@ -184,5 +199,28 @@ class UnidadesResponsablesController extends Controller
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+    
+    public function actionGetEncargados() {
+        $idDependencia = $_POST['UnidadesResponsables']['idDependencia'];
+        $encargados = CHtml::listData(
+            Encargados::model()->findAll(
+                    'idDependencia=:param1 ', array(
+                ':param1' => $idDependencia
+                    )
+            ), 'id', 'nombre'
+        );
+
+        $encargadosOptions = '';
+        foreach ($encargados as $id => $encargado) {
+            $encargadosOptions .= CHtml::tag('option', array('value' => $id), CHtml::encode($encargado), true);
+        }
+
+        echo CJSON::encode(
+                array(
+                    'status' => 'success',
+                    'encargados' => $encargadosOptions,
+                )
+        );
     }
 }
