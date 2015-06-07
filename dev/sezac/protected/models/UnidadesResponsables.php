@@ -85,12 +85,11 @@ class UnidadesResponsables extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
-
-        $criteria->compare('id', $this->id, true);
+        $criteria=new CDbCriteria;        
+        $criteria->with = array('idDependencia0','idEncargado0');
         $criteria->compare('nombre', $this->nombre, true);
-        $criteria->compare('idDependencia', $this->idDependencia, true);
-        $criteria->compare('idEncargado', $this->idEncargado, true);
+        $criteria->compare('idDependencia0.nombre', $this->idDependencia, true);
+        $criteria->compare('idEncargado0.nombre', $this->idEncargado, true);
 
         return new CActiveDataProvider(
             $this, array(
