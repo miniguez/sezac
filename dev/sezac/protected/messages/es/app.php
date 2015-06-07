@@ -9,5 +9,6 @@ return array(
     '_CATALOGOS'=>'Catálogos',
     '_DEPENDENCIAS'=>'Dependencias',
     '_UNIDADESRESPONSABLES'=>'Unidades responsables',
-    '_ANIOSFISCALES'=>'Años fiscales'
+    '_ANIOSFISCALES'=>'Años fiscales',
+    '_BENEFICIARIOS'=>'Beneficiarios'
  );
