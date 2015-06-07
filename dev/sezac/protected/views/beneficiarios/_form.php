@@ -23,8 +23,28 @@
 	<?php echo $form->textFieldGroup($model,'direccion',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>180)))); ?>
 
 	<?php echo $form->textFieldGroup($model,'telefono',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>18)))); ?>
+        <?php echo $form->textFieldGroup($model,'rfc',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>18)))); ?>
 
-	<?php echo $form->textFieldGroup($model,'idOrganizacion',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>10)))); ?>
+	
+        <?php              
+            echo $form->select2Group(
+                $model, 
+                'idOrganizacion', 
+                array(
+                    'wrapperHtmlOptions' => array(
+                        'class' => 'col-sm-4',
+                    ), 
+                    'widgetOptions' => array(
+                        'data' => $arrBeneficiarios,
+                        'options' => array(
+                            'placeholder' => 'Seleccione', 
+                            'allowClear' => true,                     
+                        )                
+                    )
+                )
+            );
+        ?>
+  
 
 	<?php echo $form->textFieldGroup($model,'idMunicipio',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>10)))); ?>
 

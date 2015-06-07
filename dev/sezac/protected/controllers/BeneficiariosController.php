@@ -50,6 +50,11 @@ class BeneficiariosController extends Controller
 */
     public function actionCreate(){
         $model=new Beneficiarios;
+        $arrBeneficiarios = CHtml::listData(
+            Organizaciones::model()->findAll(),
+            'id',
+            'nombre'
+        );
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
         if (isset($_POST["yt0"]) ) {
@@ -65,6 +70,7 @@ class BeneficiariosController extends Controller
         }}
         $this->render('create',array(
         'model'=>$model,
+        'arrBeneficiarios'=>$arrBeneficiarios
         ));
     }
 

@@ -1,7 +1,7 @@
 <div class="form">
 <?php $form=$this->beginWidget(
     'booster.widgets.TbActiveForm', array(
-        'id'=>'dependencias-form',
+        'id'=>'aniosFiscales-form',
         'type' => 'horizontal',
         'htmlOptions' => array('class' => 'well'),
     )
