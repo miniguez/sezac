@@ -53,6 +53,14 @@ $this->widget(
                         'label' => Yii::t('app','_DEPENDENCIAS'), 
                         'url' => array('/dependencias/admin')
                     ),
+                    array(
+                        'label' => Yii::t('app','_UNIDADESRESPONSABLES'), 
+                        'url' => array('/unidadesResponsables/admin')
+                    ),
+                    array(
+                        'label' => Yii::t('app','_ANIOSFISCALES'), 
+                        'url' => array('/AniosFiscales/admin')
+                    ),
                 )
             ),
             array(

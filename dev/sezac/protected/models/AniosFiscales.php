@@ -56,7 +56,7 @@ class AniosFiscales extends CActiveRecord
     {
         return array(
         'id' => 'ID',
-        'nombre' => 'Nombre',
+        'nombre' => 'Año',
         );
     }
 

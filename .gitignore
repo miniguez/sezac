@@ -1,5 +1,6 @@
 #assets
 dev/sezac/assets/*
-
 #runtime
 dev/sezac/protected/runtime/*
+#config
+dev/sezac/protected/config/main.php

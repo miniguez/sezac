@@ -1,12 +1,12 @@
 <?php
 
-class DependenciasController extends Controller
+class UnidadesResponsablesController extends Controller
 {
     /**
 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 * using two-column layout. See 'protected/views/layouts/column2.php'.
 */
-    public $layout='//layouts/column1';
+    public $layout='//layouts/column2';
 
     /**
 * @return array action filters
@@ -63,22 +63,15 @@ class DependenciasController extends Controller
 */
     public function actionCreate()
     {
-        $model=new Dependencias;
+        $model=new UnidadesResponsables;
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-        
-        
-        if (isset($_POST["yt0"]) ) {
-            $this->redirect(array('admin'));
-        }
 
-        if(isset($_POST['Dependencias'])) {
-            $model->attributes=$_POST['Dependencias'];
+        if(isset($_POST['UnidadesResponsables'])) {
+            $model->attributes=$_POST['UnidadesResponsables'];
             if($model->save()) {
-                Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se creó correctamente.')); 
-                $this->redirect(array('admin'));
-    
+                $this->redirect(array('view','id'=>$model->id)); 
             }
         }
 
@@ -94,30 +87,25 @@ class DependenciasController extends Controller
 * If update is successful, the browser will be redirected to the 'view' page.
 * @param integer $id the ID of the model to be updated
 */
-    public function actionUpdate()
-    {    
-        if (isset($_GET[Keycode::encriptar("id")])) {
-            $id = $_GET[Keycode::encriptar("id")];
-            $model=$this->loadModel($id);
-            if (isset($_POST["yt0"]) ) {
-                $this->redirect(array('admin'));
-            }
-            // Uncomment the following line if AJAX validation is needed
-            // $this->performAjaxValidation($model);
+    public function actionUpdate($id)
+    {
+        $model=$this->loadModel($id);
 
-            if(isset($_POST['Dependencias'])) {
-                $model->attributes=$_POST['Dependencias'];
-                if($model->save()) {    
-                    Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se guardó correctamente.'));
-                    $this->redirect(array('admin'));
-                }
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if(isset($_POST['UnidadesResponsables'])) {
+            $model->attributes=$_POST['UnidadesResponsables'];
+            if($model->save()) {
+                $this->redirect(array('view','id'=>$model->id)); 
             }
-            $this->render(
-                'update', array(
-                    'model'=>$model,
-                )
-            );
-        }                      
+        }
+
+        $this->render(
+            'update', array(
+            'model'=>$model,
+            )
+        );
     }
 
     /**
@@ -125,19 +113,19 @@ class DependenciasController extends Controller
 * If deletion is successful, the browser will be redirected to the 'admin' page.
 * @param integer $id the ID of the model to be deleted
 */
-    public function actionDelete()
+    public function actionDelete($id)
     {
-        if (isset($_GET[Keycode::encriptar("id")])) {
-            $id = $_GET[Keycode::encriptar("id")];
-            $model = $this->loadModel($id);
-            try {
-                $model->delete();  
-                Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro fue eliminado.')); 
-                $this->redirect(array('admin'));
-            } catch (Exception $e) {
-                Yii::app()->user->setFlash('danger', array('title' => 'Error!', 'text' => 'El Registro no puede ser eliminado.'));
-                $this->redirect(array('admin'));
+        if(Yii::app()->request->isPostRequest) {
+            // we only allow deletion via POST request
+            $this->loadModel($id)->delete();
+
+            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+            if(!isset($_GET['ajax'])) {
+                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin')); 
             }
+        }
+        else {
+            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.'); 
         }
     }
 
@@ -146,7 +134,7 @@ class DependenciasController extends Controller
 */
     public function actionIndex()
     {
-        $dataProvider=new CActiveDataProvider('Dependencias');
+        $dataProvider=new CActiveDataProvider('UnidadesResponsables');
         $this->render(
             'index', array(
             'dataProvider'=>$dataProvider,
@@ -159,10 +147,10 @@ class DependenciasController extends Controller
 */
     public function actionAdmin()
     {
-        $model=new Dependencias('search');
+        $model=new UnidadesResponsables('search');
         $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Dependencias'])) {
-            $model->attributes=$_GET['Dependencias']; 
+        if(isset($_GET['UnidadesResponsables'])) {
+            $model->attributes=$_GET['UnidadesResponsables']; 
         }
 
         $this->render(
@@ -179,8 +167,7 @@ class DependenciasController extends Controller
 */
     public function loadModel($id)
     {
-        $id = Keycode::desencriptar($id);
-        $model=Dependencias::model()->findByPk($id);
+        $model=UnidadesResponsables::model()->findByPk($id);
         if($model===null) {
             throw new CHttpException(404, 'The requested page does not exist.'); 
         }
@@ -193,7 +180,7 @@ class DependenciasController extends Controller
 */
     protected function performAjaxValidation($model)
     {
-        if(isset($_POST['ajax']) && $_POST['ajax']==='dependencias-form') {
+        if(isset($_POST['ajax']) && $_POST['ajax']==='unidades-responsables-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
