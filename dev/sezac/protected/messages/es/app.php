@@ -11,5 +11,6 @@ return array(
     '_UNIDADESRESPONSABLES'=>'Unidades responsables',
     '_ANIOSFISCALES'=>'Años fiscales',
     '_BENEFICIARIOS'=>'Beneficiarios',
-    'View'=>'Ver'
+    'View'=>'Ver',
+    '_ENCARGADOS'=>'Encargados'
  );
