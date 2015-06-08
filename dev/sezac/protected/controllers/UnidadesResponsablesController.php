@@ -203,17 +203,22 @@ class UnidadesResponsablesController extends Controller
     
     public function actionGetEncargados() {
         $idDependencia = $_POST['UnidadesResponsables']['idDependencia'];
-        $encargados = CHtml::listData(
+        /*$encargados = CHtml::listData(
             Encargados::model()->findAll(
                     'idDependencia=:param1 ', array(
                 ':param1' => $idDependencia
                     )
             ), 'id', 'nombre'
-        );
+        );*/
+        $encargados = Encargados::model()->findAll(
+                'idDependencia=:param1 ', array(
+                ':param1' => $idDependencia
+                    )
+        );       
 
         $encargadosOptions = '';
-        foreach ($encargados as $id => $encargado) {
-            $encargadosOptions .= CHtml::tag('option', array('value' => $id), CHtml::encode($encargado), true);
+        foreach ($encargados as  $encargado) {
+            $encargadosOptions .= CHtml::tag('option', array('value' => $encargado->id), CHtml::encode($encargado->nombre." ".$encargado->apellidoPaterno." ".$encargado->apellidoMaterno), true);
         }
 
         echo CJSON::encode(
