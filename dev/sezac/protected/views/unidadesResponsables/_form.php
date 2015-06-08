@@ -44,7 +44,8 @@ echo $form->textFieldGroup(
                         'dataType'=>'json',
                         'url'=>  CController::createUrl('unidadesResponsables/getEncargados'),
                         'beforeSend'=>'function() {                            
-                            $("#UnidadesResponsables_idEncargado").find("option").remove();                                                        
+                            $("#UnidadesResponsables_idEncargado").find("option").remove();  
+                            $("#UnidadesResponsables_idEncargado").find("value").remove();  
                         }',
                         'success'=>"function(data) {
                             $('#UnidadesResponsables_idEncargado').html(data.encargados);                        
