@@ -25,7 +25,7 @@ echo $form->textFieldGroup(
 ?>
 
 <?php              
-    echo $form->select2Group(
+    echo $form->dropDownListGroup(
         $model, 
         'idDependencia', 
         array(
@@ -34,8 +34,7 @@ echo $form->textFieldGroup(
             ), 
             'widgetOptions' => array(
                 'data' => $arrDependencias,
-                'options' => array(
-                    'placeholder' => 'Seleccione', 
+                'options' => array(                     
                     'allowClear' => true,                     
                 ),
                 'htmlOptions' => array(                    
@@ -44,20 +43,20 @@ echo $form->textFieldGroup(
                         'dataType'=>'json',
                         'url'=>  CController::createUrl('unidadesResponsables/getEncargados'),
                         'beforeSend'=>'function() {                            
-                            $("#UnidadesResponsables_idEncargado").find("option").remove();  
-                            $("#UnidadesResponsables_idEncargado").find("value").remove();  
+                            $("#UnidadesResponsables_idEncargado").find("option").remove();                            
                         }',
                         'success'=>"function(data) {
                             $('#UnidadesResponsables_idEncargado').html(data.encargados);                        
                         }",
                     ),
+                    'prompt' => 'Seleccione',
                 ),
             )
         )
     );
 ?>
 <?php              
-    echo $form->select2Group(
+    echo $form->dropDownListGroup(
         $model, 
         'idEncargado', 
         array(
@@ -68,7 +67,7 @@ echo $form->textFieldGroup(
                 'data' => $arrEncargados,
                 'options' => array(
                     'placeholder' => 'Seleccione', 
-                    'allowClear' => true,                     
+                    'allowClear' => false,                     
                 )                
             )
         )

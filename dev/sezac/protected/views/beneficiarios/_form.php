@@ -27,7 +27,7 @@
 
 	
         <?php              
-            echo $form->select2Group(
+            echo $form->dropDownListGroup(
                 $model, 
                 'idOrganizacion', 
                 array(
@@ -44,9 +44,60 @@
                 )
             );
         ?>
+
+        
+        <?php              
+            echo $form->dropDownListGroup(
+                $model, 
+                'idEstado', 
+                array(
+                    'wrapperHtmlOptions' => array(
+                        'class' => 'col-sm-4',
+                    ), 
+                    'widgetOptions' => array(
+                        'data' => $arrEstados,
+                        'options' => array(
+                            'placeholder' => 'Seleccione', 
+                            'allowClear' => true,                     
+                        ),
+                        'htmlOptions' => array(                    
+                            'ajax'=>array(
+                                'type'=>'POST',
+                                'dataType'=>'json',
+                                'url'=>  CController::createUrl('beneficiarios/getMunicipios'),
+                                'beforeSend'=>'function() {                            
+                                    $("#Beneficiarios_idMunicipio").find("option").remove();                            
+                                }',
+                                'success'=>"function(data) {
+                                    $('#Beneficiarios_idMunicipio').html(data.municipios);                        
+                                }",
+                            ),
+                            'prompt'=>'Seleccione',
+                        ),
+                    )
+                )
+            );
+        ?>
   
 
-	<?php echo $form->textFieldGroup($model,'idMunicipio',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>10)))); ?>
+	 <?php              
+            echo $form->dropDownListGroup(
+                $model, 
+                'idMunicipio', 
+                array(
+                    'wrapperHtmlOptions' => array(
+                        'class' => 'col-sm-4',
+                    ), 
+                    'widgetOptions' => array(
+                        'data' => $arrMunicipios,
+                        'options' => array(
+                            'placeholder' => 'Seleccione', 
+                            'allowClear' => true,                     
+                        )                
+                    )
+                )
+            );
+        ?>
 
 	<?php echo $form->textFieldGroup($model,'rfc',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>45)))); ?>
 

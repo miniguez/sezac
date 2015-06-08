@@ -88,12 +88,24 @@ class UnidadesResponsables extends CActiveRecord
         $criteria=new CDbCriteria;        
         $criteria->with = array('idEncargado0.idDependencia0');
         $criteria->compare('nombre', $this->nombre, true);
-        $criteria->compare('idEncargado0.idDependencia0.nombre', $this->idDependencia, true);
+        $criteria->compare('idDependencia0.nombre', $this->idDependencia, true);
         $criteria->compare('idEncargado0.nombre', $this->idEncargado, true);
 
         return new CActiveDataProvider(
             $this, array(
-            'criteria'=>$criteria,
+                'criteria'=>$criteria,
+                'sort'=> array(
+                    'defaultOrder' => 't.id DESC',
+                    'attributes'=>
+                        array(
+                            'idDependencia'=>
+                                array(
+                                    'asc'=>'idDependencia0.nombre ASC',
+                                    'desc'=>'idDependencia0.nombre DESC',
+                                ),                            
+                            '*',
+                        ),
+                ),
             )
         );
     }

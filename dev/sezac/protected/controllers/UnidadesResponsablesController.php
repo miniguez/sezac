@@ -116,6 +116,7 @@ class UnidadesResponsablesController extends Controller
                 'id',
                 'nombre'
             );
+            $model->idDependencia = $model->idEncargado0->idDependencia;
             $arrEncargados = UnidadesResponsables::model()->getEncargados($model->idDependencia);
             if(isset($_POST['UnidadesResponsables'])) {
                 $model->attributes=$_POST['UnidadesResponsables'];
@@ -135,24 +136,24 @@ class UnidadesResponsablesController extends Controller
         }        
     }
 
-    /**
+    /** 
 * Deletes a particular model.
 * If deletion is successful, the browser will be redirected to the 'admin' page.
 * @param integer $id the ID of the model to be deleted
 */
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        if(Yii::app()->request->isPostRequest) {
-            // we only allow deletion via POST request
-            $this->loadModel($id)->delete();
-
-            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-            if(!isset($_GET['ajax'])) {
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin')); 
+        if (isset($_GET[Keycode::encriptar("id")])) {
+            $id = $_GET[Keycode::encriptar("id")];
+            $model = $this->loadModel($id);
+            try {
+                $model->delete();  
+                Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro fue eliminado.')); 
+                $this->redirect(array('admin'));
+            } catch (Exception $e) {
+                Yii::app()->user->setFlash('danger', array('title' => 'Error!', 'text' => 'El Registro no puede ser eliminado.'));
+                $this->redirect(array('admin'));
             }
-        }
-        else {
-            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.'); 
         }
     }
 
@@ -215,14 +216,7 @@ class UnidadesResponsablesController extends Controller
     }
     
     public function actionGetEncargados() {
-        $idDependencia = $_POST['UnidadesResponsables']['idDependencia'];
-        /*$encargados = CHtml::listData(
-            Encargados::model()->findAll(
-                    'idDependencia=:param1 ', array(
-                ':param1' => $idDependencia
-                    )
-            ), 'id', 'nombre'
-        );*/
+        $idDependencia = $_POST['UnidadesResponsables']['idDependencia'];      
         $encargados = Encargados::model()->findAll(
                 'idDependencia=:param1 ', array(
                 ':param1' => $idDependencia

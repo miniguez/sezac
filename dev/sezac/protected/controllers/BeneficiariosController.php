@@ -24,7 +24,7 @@ class BeneficiariosController extends Controller
             'users'=>array('*'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-            'actions'=>array('admin','delete'),
+            'actions'=>array('admin','delete','getMunicipios'),
             'users'=>array('*'),
             ),
             array('deny',  // deny all users
@@ -55,6 +55,13 @@ class BeneficiariosController extends Controller
             'id',
             'nombre'
         );
+        $arrEstados = CHtml::listData(
+            Estados::model()->findAll(),
+            'id',
+            'nombre'
+        );
+        $arrMunicipios = array();
+        
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
         if (isset($_POST["yt0"]) ) {
@@ -70,7 +77,10 @@ class BeneficiariosController extends Controller
         }}
         $this->render('create',array(
         'model'=>$model,
-        'arrBeneficiarios'=>$arrBeneficiarios
+        'arrBeneficiarios'=>$arrBeneficiarios,
+        'arrEstados'=>$arrEstados,
+        'arrMunicipios'=>$arrMunicipios
+        
         ));
     }
 
@@ -88,6 +98,12 @@ class BeneficiariosController extends Controller
                     'id',
                     'nombre'
                 );
+                $arrEstados = CHtml::listData(
+                    Estados::model()->findAll(),
+                    'id',
+                    'nombre'
+                );
+                 $arrMunicipios = array();
 
                 if (isset($_POST["yt0"]) ) {
                     $this->redirect(array('admin'));
@@ -105,7 +121,9 @@ class BeneficiariosController extends Controller
 
                 $this->render('update',array(
                     'model'=>$model,
-                    'arrBeneficiarios'=>$arrBeneficiarios
+                    'arrBeneficiarios'=>$arrBeneficiarios,
+                    'arrEstados'=>$arrEstados,
+                    'arrMunicipios'=>$arrMunicipios
                 ));
          }
 
@@ -183,5 +201,26 @@ class BeneficiariosController extends Controller
     echo CActiveForm::validate($model);
     Yii::app()->end();
     }
+    }
+    
+       public function actionGetMunicipios() {
+        $idEstado = $_POST['Beneficiarios']['idEstado'];
+        $municipios = Municipios::model()->findAll(
+                'idEstado=:param1 ', array(
+                ':param1' => $idEstado
+                    )
+        );       
+
+        $municipiosOptions = '';
+        foreach ($municipios as  $municipio) {
+            $municipiosOptions .= CHtml::tag('option', array('value' => $municipio->id), CHtml::encode($municipio->nombre), true);
+        }
+
+        echo CJSON::encode(
+                array(
+                    'status' => 'success',
+                    'municipios' => $municipiosOptions,
+                )
+        );
     }
 }
