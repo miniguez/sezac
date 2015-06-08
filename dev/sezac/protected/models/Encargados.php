@@ -11,10 +11,10 @@
  * @property string $apellidoMaterno
  * @property string $numEmpleado
  * @property string $telefono
- * @property string $idDependecia
+ * @property string $idDependencia
  *
  * The followings are the available model relations:
- * @property Dependecias $idDependecia0
+ * @property Dependecias $idDependencia0
  * @property UnidadesResponsables[] $unidadesResponsables
  */
 class Encargados extends CActiveRecord
@@ -35,14 +35,14 @@ class Encargados extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-        array('nombre, apellidoPaterno, numEmpleado, idDependecia', 'required'),
+        array('nombre, apellidoPaterno, numEmpleado, idDependencia', 'required'),
         array('nombre, apellidoPaterno, apellidoMaterno', 'length', 'max'=>80),
         array('numEmpleado', 'length', 'max'=>8),
         array('telefono', 'length', 'max'=>18),
-        array('idDependecia', 'length', 'max'=>10),
+        array('idDependencia', 'length', 'max'=>10),
         // The following rule is used by search().
         // @todo Please remove those attributes that should not be searched.
-        array('id, nombre, apellidoPaterno, apellidoMaterno, numEmpleado, telefono, idDependecia', 'safe', 'on'=>'search'),
+        array('id, nombre, apellidoPaterno, apellidoMaterno, numEmpleado, telefono, idDependencia', 'safe', 'on'=>'search'),
         );
     }
 
@@ -54,7 +54,7 @@ class Encargados extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-        'idDependecia0' => array(self::BELONGS_TO, 'Dependecias', 'idDependecia'),
+        'idDependencia0' => array(self::BELONGS_TO, 'Dependencias', 'idDependencia'),
         'unidadesResponsables' => array(self::HAS_MANY, 'UnidadesResponsables', 'idEncargado'),
         );
     }
@@ -71,7 +71,7 @@ class Encargados extends CActiveRecord
         'apellidoMaterno' => 'Apellido Materno',
         'numEmpleado' => 'Num Empleado',
         'telefono' => 'Telefono',
-        'idDependecia' => 'Id Dependecia',
+        'idDependencia' => 'Id Dependecia',
         );
     }
 
@@ -99,7 +99,7 @@ class Encargados extends CActiveRecord
         $criteria->compare('apellidoMaterno', $this->apellidoMaterno, true);
         $criteria->compare('numEmpleado', $this->numEmpleado, true);
         $criteria->compare('telefono', $this->telefono, true);
-        $criteria->compare('idDependecia', $this->idDependecia, true);
+        $criteria->compare('idDependencia', $this->idDependencia, true);
 
         return new CActiveDataProvider(
             $this, array(

@@ -17,6 +17,7 @@
  */
 class UnidadesResponsables extends CActiveRecord
 {
+    public $idDependencia;
     /**
      * @return string the associated database table name
      */
@@ -50,8 +51,7 @@ class UnidadesResponsables extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-        'programases' => array(self::HAS_MANY, 'Programas', 'idUnidadesResponsable'),
-        'idDependencia0' => array(self::BELONGS_TO, 'Dependencias', 'idDependencia'),
+        'programases' => array(self::HAS_MANY, 'Programas', 'idUnidadesResponsable'),        
         'idEncargado0' => array(self::BELONGS_TO, 'Encargados', 'idEncargado'),
         );
     }
@@ -86,9 +86,9 @@ class UnidadesResponsables extends CActiveRecord
         // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria=new CDbCriteria;        
-        $criteria->with = array('idDependencia0','idEncargado0');
+        $criteria->with = array('idEncargado0.idDependencia0');
         $criteria->compare('nombre', $this->nombre, true);
-        $criteria->compare('idDependencia0.nombre', $this->idDependencia, true);
+        $criteria->compare('idEncargado0.idDependencia0.nombre', $this->idDependencia, true);
         $criteria->compare('idEncargado0.nombre', $this->idEncargado, true);
 
         return new CActiveDataProvider(

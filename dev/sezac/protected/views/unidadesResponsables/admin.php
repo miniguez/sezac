@@ -13,7 +13,7 @@ $this->breadcrumbs=array(
 		'nombre',		
                 array(
                     'name'=>'idDependencia',
-                    'value'=>'$data->idDependencia0->nombre'
+                    'value'=>'$data->idEncargado0->idDependencia0->nombre'
                 ),
                 array(
                     'name'=>'idEncargado',
