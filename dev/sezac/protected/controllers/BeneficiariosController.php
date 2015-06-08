@@ -6,9 +6,9 @@ class BeneficiariosController extends Controller
     public $layout='//layouts/column2';
     public function filters()
     {
-    return array(
-    'accessControl', // perform access control for CRUD operations
-    );
+        return array(
+        'accessControl', // perform access control for CRUD operations
+        );
     }
 
 
@@ -50,6 +50,11 @@ class BeneficiariosController extends Controller
 */
     public function actionCreate(){
         $model=new Beneficiarios;
+        $arrBeneficiarios = CHtml::listData(
+            Organizaciones::model()->findAll(),
+            'id',
+            'nombre'
+        );
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
         if (isset($_POST["yt0"]) ) {
@@ -65,6 +70,7 @@ class BeneficiariosController extends Controller
         }}
         $this->render('create',array(
         'model'=>$model,
+        'arrBeneficiarios'=>$arrBeneficiarios
         ));
     }
 
@@ -77,6 +83,11 @@ class BeneficiariosController extends Controller
         if (isset($_GET[Keycode::encriptar("id")])) {
                 $id = $_GET[Keycode::encriptar("id")];
                 $model=$this->loadModel($id);
+                $arrBeneficiarios = CHtml::listData(
+                    Organizaciones::model()->findAll(),
+                    'id',
+                    'nombre'
+                );
 
                 if (isset($_POST["yt0"]) ) {
                     $this->redirect(array('admin'));
@@ -93,26 +104,11 @@ class BeneficiariosController extends Controller
                 }
 
                 $this->render('update',array(
-                'model'=>$model,
+                    'model'=>$model,
+                    'arrBeneficiarios'=>$arrBeneficiarios
                 ));
          }
 
-    /*
-    $model=$this->loadModel($id);
-
-    // Uncomment the following line if AJAX validation is needed
-    // $this->performAjaxValidation($model);
-
-    if(isset($_POST['Beneficiarios']))
-    {
-    $model->attributes=$_POST['Beneficiarios'];
-    if($model->save())
-    $this->redirect(array('view','id'=>$model->id));
-    }
-
-    $this->render('update',array(
-    'model'=>$model,
-    ));*/
     }
 
     /**
@@ -133,18 +129,7 @@ class BeneficiariosController extends Controller
                     $this->redirect(array('admin'));
                 }
             }
-    /*
-    if(Yii::app()->request->isPostRequest)
-    {
-    // we only allow deletion via POST request
-    $this->loadModel($id)->delete();
-
-    // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-    if(!isset($_GET['ajax']))
-    $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-    }
-    else
-    throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');*/
+  
     }
 
     /**
@@ -179,11 +164,12 @@ class BeneficiariosController extends Controller
     * @param integer the ID of the model to be loaded
     */
     public function loadModel($id)
-    {
-    $model=Beneficiarios::model()->findByPk($id);
-    if($model===null)
-    throw new CHttpException(404,'The requested page does not exist.');
-    return $model;
+    {   
+        $id = Keycode::desencriptar($id);
+        $model=Beneficiarios::model()->findByPk($id);
+        if($model===null)
+        throw new CHttpException(404,'The requested page does not exist.');
+        return $model;
     }
 
 /**
