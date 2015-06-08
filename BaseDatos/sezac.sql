@@ -116,7 +116,7 @@ CREATE TABLE `Encargados` (
   PRIMARY KEY (`id`),
   KEY `fk_Encargados_Dependecias1_idx` (`idDependencia`),
   CONSTRAINT `fk_Encargados_Dependecias1` FOREIGN KEY (`idDependencia`) REFERENCES `Dependencias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `Encargados` (
 
 LOCK TABLES `Encargados` WRITE;
 /*!40000 ALTER TABLE `Encargados` DISABLE KEYS */;
-INSERT INTO `Encargados` VALUES (1,'Encargado 1','Uno',NULL,'234561',NULL,8);
+INSERT INTO `Encargados` VALUES (1,'Encargado 1','Uno',NULL,'234561',NULL,8),(2,'Encargado 2','Dos',NULL,'344566',NULL,9);
 /*!40000 ALTER TABLE `Encargados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,14 +274,11 @@ DROP TABLE IF EXISTS `UnidadesResponsables`;
 CREATE TABLE `UnidadesResponsables` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  `idDependencia` int(10) unsigned NOT NULL,
   `idEncargado` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_UnidadesResponsables_Dependecias_idx` (`idDependencia`),
   KEY `fk_UnidadesResponsables_Encargados1_idx` (`idEncargado`),
-  CONSTRAINT `fk_UnidadesResponsables_Dependecias` FOREIGN KEY (`idDependencia`) REFERENCES `Dependencias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_UnidadesResponsables_Encargados1` FOREIGN KEY (`idEncargado`) REFERENCES `Encargados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -290,7 +287,7 @@ CREATE TABLE `UnidadesResponsables` (
 
 LOCK TABLES `UnidadesResponsables` WRITE;
 /*!40000 ALTER TABLE `UnidadesResponsables` DISABLE KEYS */;
-INSERT INTO `UnidadesResponsables` VALUES (1,'Prueba de unidad 1',8,1);
+INSERT INTO `UnidadesResponsables` VALUES (7,'Prueba 1',1);
 /*!40000 ALTER TABLE `UnidadesResponsables` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -308,7 +305,7 @@ CREATE TABLE `Usuarios` (
   `tipo` enum('Administrador','Encargado','Beneficiario') NOT NULL,
   `nombre` varchar(180) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -317,6 +314,7 @@ CREATE TABLE `Usuarios` (
 
 LOCK TABLES `Usuarios` WRITE;
 /*!40000 ALTER TABLE `Usuarios` DISABLE KEYS */;
+INSERT INTO `Usuarios` VALUES (1,'admin','$2y$10$CeBrlugStS79WRdYVEj8GOU9Joky65YKSAb.9a4p9fPJOhLb5WkDW','Administrador','Administrador'),(2,'encargado','$2y$10$CeBrlugStS79WRdYVEj8GOU9Joky65YKSAb.9a4p9fPJOhLb5WkDW','Encargado','Encargado'),(3,'beneficiario','$2y$10$CeBrlugStS79WRdYVEj8GOU9Joky65YKSAb.9a4p9fPJOhLb5WkDW','Beneficiario','Beneficiario');
 /*!40000 ALTER TABLE `Usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -355,4 +353,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-08  9:21:44
+-- Dump completed on 2015-06-08 15:47:25
