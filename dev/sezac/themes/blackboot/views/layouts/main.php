@@ -69,7 +69,8 @@ $this->widget(
                         'label' => Yii::t('app','_ENCARGADOS'), 
                         'url' => array('/encargados/admin')
                     ),
-                )
+                ),
+                'visible'=>(!Yii::app()->user->isGuest and Yii::app()->user->getState("tipo") == "Administrador")
             ),
             array(
                 'label'=>Yii::t('app', 'iniciar sesion'), 
