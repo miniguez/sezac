@@ -108,4 +108,22 @@ class UnidadesResponsables extends CActiveRecord
     {
         return parent::model($className);
     }
+    
+    /**
+     * funcion para obetener los ecargados de una dependencia 
+     * @param int $idDependencia
+     * @return array
+     */
+    public function getEncargados($idDependencia) {
+        $encargados = Encargados::model()->findAll(
+                'idDependencia=:param1 ', array(
+                ':param1' => $idDependencia
+                    )
+        ); 
+        $arrEncargados = array();
+        foreach($encargados as $encargado) {
+            $arrEncargados[$encargado->id] = $encargado->nombre." ".$encargado->apellidoPaterno." ".$encargado->apellidoMaterno;
+        }
+        return $arrEncargados;
+    }
 }

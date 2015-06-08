@@ -69,11 +69,7 @@ class UnidadesResponsablesController extends Controller
             'id',
             'nombre'
         );
-        $arrEncargados = CHtml::listData(
-             Encargados::model()->findAll(),
-            'id',
-            'nombre'
-        );
+        $arrEncargados = array();
         if (isset($_POST["yt0"]) ) {
             $this->redirect(array('admin'));
         }
@@ -102,25 +98,41 @@ class UnidadesResponsablesController extends Controller
 * If update is successful, the browser will be redirected to the 'view' page.
 * @param integer $id the ID of the model to be updated
 */
-    public function actionUpdate($id)
-    {
-        $model=$this->loadModel($id);
+    public function actionUpdate()
+    {       
+        
+        if (isset($_GET[Keycode::encriptar("id")])) {
+            $id = $_GET[Keycode::encriptar("id")];
+            $model=$this->loadModel($id);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if(isset($_POST['UnidadesResponsables'])) {
-            $model->attributes=$_POST['UnidadesResponsables'];
-            if($model->save()) {
-                $this->redirect(array('view','id'=>$model->id)); 
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
+            if (isset($_POST["yt0"]) ) {
+                $this->redirect(array('admin'));
             }
-        }
-
-        $this->render(
+            
+            $arrDependencias = CHtml::listData(
+                Dependencias::model()->findAll(),
+                'id',
+                'nombre'
+            );
+            $arrEncargados = UnidadesResponsables::model()->getEncargados($model->idDependencia);
+            if(isset($_POST['UnidadesResponsables'])) {
+                $model->attributes=$_POST['UnidadesResponsables'];
+                if($model->save()) {
+                    Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se guardó correctamente.'));
+                    $this->redirect(array('admin')); 
+                }
+            }
+            $this->render(
             'update', array(
-            'model'=>$model,
+                'model'=>$model,
+                'arrDependencias'=>$arrDependencias,
+                'arrEncargados'=>$arrEncargados
             )
-        );
+            );
+            
+        }        
     }
 
     /**
@@ -182,6 +194,7 @@ class UnidadesResponsablesController extends Controller
 */
     public function loadModel($id)
     {
+        $id = Keycode::desencriptar($id);
         $model=UnidadesResponsables::model()->findByPk($id);
         if($model===null) {
             throw new CHttpException(404, 'The requested page does not exist.'); 

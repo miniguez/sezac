@@ -17,10 +17,32 @@ $this->breadcrumbs=array(
                 ),
                 array(
                     'name'=>'idEncargado',
-                    'value'=>'$data->idEncargado0->nombre'
+                    'value'=>'$data->idEncargado0->nombre." ".$data->idEncargado0->apellidoPaterno." ".$data->idEncargado0->apellidoMaterno'
                 ),		
 array(
-'class'=>'booster.widgets.TbButtonColumn',
+    'class'=>'booster.widgets.TbButtonColumn',
+    'template'=>'{editar} {eliminar}', 
+    'buttons'=>array(
+        'editar'=>array(
+            'url'=>'Yii::app()->createUrl("unidadesResponsables/update",'
+            .'array(Keycode::encriptar("id")=>'
+            .'Keycode::encriptar($data->id)))',
+            'label'=>Yii::t('app', 'Update'),
+            'icon'=>'pencil',
+            'size' => 'small',
+        ),
+        'eliminar'=>array(
+            'url'=>'Yii::app()->createUrl("unidadesResponsables/delete",'
+            . 'array(Keycode::encriptar("id")=>'
+            . 'Keycode::encriptar($data->id)))',
+            'label'=>Yii::t('app', 'Delete'),
+            'icon'=>'trash',            
+            'options' => array(
+                'confirm' => 
+                    Yii::t('app', 'Mensaje_Confirmar_Aceptar'),
+                ),
+         ),
+    )
 ),
 ),
 )); ?>
