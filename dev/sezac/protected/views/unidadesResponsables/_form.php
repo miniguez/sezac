@@ -34,8 +34,7 @@ echo $form->textFieldGroup(
             ), 
             'widgetOptions' => array(
                 'data' => $arrDependencias,
-                'options' => array(
-                    'placeholder' => 'Seleccione', 
+                'options' => array(                     
                     'allowClear' => true,                     
                 ),
                 'htmlOptions' => array(                    
@@ -50,6 +49,7 @@ echo $form->textFieldGroup(
                             $('#UnidadesResponsables_idEncargado').html(data.encargados);                        
                         }",
                     ),
+                    'prompt' => 'Seleccione',
                 ),
             )
         )
