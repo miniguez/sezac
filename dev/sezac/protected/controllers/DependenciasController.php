@@ -11,10 +11,15 @@ class DependenciasController extends Controller
     /**
 * @return array action filters
 */
-    public function filters()
-    {
+   
+    public function filters() {
         return array(
-        'accessControl', // perform access control for CRUD operations
+            array(
+                'application.filters.YXssFilter',
+                'clean' => '*',
+                'tags' => 'strict',
+                'actions' => 'all'
+            ), 'accessControl',
         );
     }
 
@@ -29,7 +34,7 @@ class DependenciasController extends Controller
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions'=>array('index','create','update','admin','delete'),
                 'expression'=>
-                    ' Yii::app()->user->getState("tipo") == "Administrador"'
+                    ' Yii::app()->user->getState("tipo") == "Encargado"'
             ),
             array('deny',  // deny all users
                 'users'=>array('*'),

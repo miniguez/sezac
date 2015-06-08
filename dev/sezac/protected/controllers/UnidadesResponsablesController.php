@@ -11,10 +11,14 @@ class UnidadesResponsablesController extends Controller
     /**
 * @return array action filters
 */
-    public function filters()
-    {
+    public function filters() {
         return array(
-        'accessControl', // perform access control for CRUD operations
+            array(
+                'application.filters.YXssFilter',
+                'clean' => '*',
+                'tags' => 'strict',
+                'actions' => 'all'
+            ), 'accessControl',
         );
     }
 

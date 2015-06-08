@@ -51,37 +51,42 @@ $this->widget(
                 'items' => array(
                     array(
                         'label' => Yii::t('app','_DEPENDENCIAS'), 
-                        'url' => array('/dependencias/admin')
+                        'url' => array('/dependencias/admin'),
+                        'visible' =>Yii::app()->user->getState("tipo") == "Encargado"
                     ),
                     array(
                         'label' => Yii::t('app','_UNIDADESRESPONSABLES'), 
-                        'url' => array('/unidadesResponsables/admin')
+                        'url' => array('/unidadesResponsables/admin'),
+                        'visible' =>Yii::app()->user->getState("tipo") == "Administrador"
                     ),
                     array(
                         'label' => Yii::t('app','_ANIOSFISCALES'), 
-                        'url' => array('/AniosFiscales/admin')
+                        'url' => array('/AniosFiscales/admin'),
+                        'visible' =>Yii::app()->user->getState("tipo") == "Administrador"
                     ),
                     array(
                         'label' => Yii::t('app','_BENEFICIARIOS'), 
-                        'url' => array('/beneficiarios/admin')
+                        'url' => array('/beneficiarios/admin'),
+                        'visible' =>Yii::app()->user->getState("tipo") == "Encargado"
                     ),
                     array(
                         'label' => Yii::t('app','_ENCARGADOS'), 
-                        'url' => array('/encargados/admin')
+                        'url' => array('/encargados/admin'),
+                        'visible' =>Yii::app()->user->getState("tipo") == "Administrador"
                     ),
                 ),
-                'visible'=>(!Yii::app()->user->isGuest and Yii::app()->user->getState("tipo") == "Administrador")
+                'visible'=>(!Yii::app()->user->isGuest and (Yii::app()->user->getState("tipo") == "Administrador" || Yii::app()->user->getState("tipo") == "Encargado"))
             ),
             array(
                 'label'=>Yii::t('app', 'iniciar sesion'), 
                 'url'=>array('/site/login'), 
                 'visible'=>Yii::app()->user->isGuest
             ),
-            array(
+            /*array(
                 'label'=>Yii::t('app', 'Cambiar contraseña'), 
                 'url'=>array('/usuarios/changePassword'), 
                 'visible'=>!Yii::app()->user->isGuest
-            ),
+            ),*/
             array(
                 'label'=>Yii::t('app', 'cerrar sesion').' ('.Yii::app()->user->name.')', 
                 'url'=>array('/site/logout'), 
