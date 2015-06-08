@@ -1,6 +1,6 @@
 <?php
 
-class AniosFiscalesController extends Controller
+class EncargadosController extends Controller
 {
 /**
 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -61,25 +61,22 @@ $this->render('view',array(
 */
 public function actionCreate()
 {
-$model=new AniosFiscales;
+$model=new Encargados;
 
 // Uncomment the following line if AJAX validation is needed
 // $this->performAjaxValidation($model);
 
- if (isset($_POST["yt0"]) ) {
+if (isset($_POST["yt0"]) ) {
             $this->redirect(array('admin'));
         }
 
-if(isset($_POST['AniosFiscales']))
+if(isset($_POST['Encargados']))
 {
-    $model->attributes=$_POST['AniosFiscales'];
-        if($model->save()){
+    $model->attributes=$_POST['Encargados'];
+        if($model->save())
         Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se creó correctamente.'));     
         $this->redirect(array('admin'));
     }
-}
-
-
 
 $this->render('create',array(
 'model'=>$model,
@@ -93,28 +90,29 @@ $this->render('create',array(
 */
 public function actionUpdate()
 {
-     if (isset($_GET[Keycode::encriptar("id")])) {
+    if (isset($_GET[Keycode::encriptar("id")])) {
             $id = $_GET[Keycode::encriptar("id")];
             $model=$this->loadModel($id);
 
             if (isset($_POST["yt0"]) ) {
                 $this->redirect(array('admin'));
             }
-                    // Uncomment the following line if AJAX validation is needed
-                    // $this->performAjaxValidation($model);
 
-            if(isset($_POST['AniosFiscales']))
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
+
+            if(isset($_POST['Encargados']))
             {
-            $model->attributes=$_POST['AniosFiscales'];
-            if($model->save())
-                Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se guardó correctamente.'));
-            $this->redirect(array('admin'));
+                $model->attributes=$_POST['Encargados'];
+                if($model->save())
+                    Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se guardó correctamente.'));
+                $this->redirect(array('admin'));
             }
 
-            $this->render('update',array(
-            'model'=>$model,
+                $this->render('update',array(
+                'model'=>$model,
             ));
-     }
+     } 
 }
 
 /**
@@ -143,7 +141,7 @@ public function actionDelete()
 */
 public function actionIndex()
 {
-$dataProvider=new CActiveDataProvider('AniosFiscales');
+$dataProvider=new CActiveDataProvider('Encargados');
 $this->render('index',array(
 'dataProvider'=>$dataProvider,
 ));
@@ -154,10 +152,10 @@ $this->render('index',array(
 */
 public function actionAdmin()
 {
-$model=new AniosFiscales('search');
+$model=new Encargados('search');
 $model->unsetAttributes();  // clear any default values
-if(isset($_GET['AniosFiscales']))
-$model->attributes=$_GET['AniosFiscales'];
+if(isset($_GET['Encargados']))
+$model->attributes=$_GET['Encargados'];
 
 $this->render('admin',array(
 'model'=>$model,
@@ -172,7 +170,7 @@ $this->render('admin',array(
 public function loadModel($id)
 {
     $id = Keycode::desencriptar($id);
-$model=AniosFiscales::model()->findByPk($id);
+$model=Encargados::model()->findByPk($id);
 if($model===null)
 throw new CHttpException(404,'The requested page does not exist.');
 return $model;
@@ -184,7 +182,7 @@ return $model;
 */
 protected function performAjaxValidation($model)
 {
-if(isset($_POST['ajax']) && $_POST['ajax']==='anios-fiscales-form')
+if(isset($_POST['ajax']) && $_POST['ajax']==='encargados-form')
 {
 echo CActiveForm::validate($model);
 Yii::app()->end();

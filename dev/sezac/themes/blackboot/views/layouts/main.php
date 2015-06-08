@@ -65,6 +65,10 @@ $this->widget(
                         'label' => Yii::t('app','_BENEFICIARIOS'), 
                         'url' => array('/beneficiarios/admin')
                     ),
+                    array(
+                        'label' => Yii::t('app','_ENCARGADOS'), 
+                        'url' => array('/encargados/admin')
+                    ),
                 )
             ),
             array(
