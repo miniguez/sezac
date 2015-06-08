@@ -24,6 +24,7 @@ class Beneficiarios extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+        public $idEstado;
 	public function tableName()
 	{
 		return 'Beneficiarios';
@@ -37,11 +38,11 @@ class Beneficiarios extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre, apellidoPaterno, idMunicipio, rfc', 'required'),
+			array('nombre, apellidoPaterno, idMunicipio, rfc,idEstado', 'required'),
 			array('nombre, apellidoPaterno, apellidoMaterno', 'length', 'max'=>80),
 			array('direccion', 'length', 'max'=>180),
 			array('telefono', 'length', 'max'=>18),
-			array('idOrganizacion, idMunicipio', 'length', 'max'=>10),
+			array('idOrganizacion, idMunicipio, idEstado', 'length', 'max'=>10),
 			array('rfc', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -75,8 +76,9 @@ class Beneficiarios extends CActiveRecord
 			'apellidoMaterno' => 'Apellido Materno',
 			'direccion' => 'Direccion',
 			'telefono' => 'Telefono',
-			'idOrganizacion' => 'Id Organizacion',
-			'idMunicipio' => 'Id Municipio',
+			'idOrganizacion' => 'Organizacion',
+			'idMunicipio' => ' Municipio',
+                        'idEstado' => 'Estado',
 			'rfc' => 'Rfc',
 		);
 	}
@@ -98,20 +100,30 @@ class Beneficiarios extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('apellidoPaterno',$this->apellidoPaterno,true);
-		$criteria->compare('apellidoMaterno',$this->apellidoMaterno,true);
-		$criteria->compare('direccion',$this->direccion,true);
-		$criteria->compare('telefono',$this->telefono,true);
-		$criteria->compare('idOrganizacion',$this->idOrganizacion,true);
-		$criteria->compare('idMunicipio',$this->idMunicipio,true);
-		$criteria->compare('rfc',$this->rfc,true);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+                $criteria->with=array("idMunicipio0.idEstado0");
+                $criteria->compare('concat(t.nombre," ",apellidoPaterno," ",apellidoMaterno)',$this->nombre,true);
+		$criteria->compare('idMunicipio0.nombre',$this->idMunicipio,true);
+		$criteria->compare('idEstado0.nombre',$this->idEstado,true);
+                
+                
+                
+		return new CActiveDataProvider(
+		 $this, array(
+                    'criteria'=>$criteria,
+                    'sort'=> array(
+                        'defaultOrder' => 't.id DESC',
+                        'attributes'=>
+                            array(
+                                'idEstado'=>
+                                    array(
+                                        'asc'=>'idEstado0.nombre ASC',
+                                        'desc'=>'idEstado0.nombre DESC',
+                                    ),                            
+                                '*',
+                            ),
+                    ),
+                )
+                );
 	}
 
 	/**

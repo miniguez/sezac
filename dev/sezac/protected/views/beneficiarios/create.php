@@ -6,15 +6,14 @@
 
 ?>
 
-<h1>Crear Beneficiario</h1>
-
-
 <?php 
     echo $this->renderPartial(
             '_form', 
             array(
                 'model'=>$model,
-                'arrBeneficiarios'=>$arrBeneficiarios
+                'arrBeneficiarios'=>$arrBeneficiarios,
+                'arrEstados'=>$arrEstados, 
+                'arrMunicipios'=>$arrMunicipios 
             )
     ); 
 ?>
