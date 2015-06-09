@@ -22,7 +22,7 @@ array('label'=>'Manage Encargados','url'=>array('admin')),
 		'apellidoMaterno',
 		'numEmpleado',
 		'telefono',
-		array (
+                array (
                     'name'=>'idDependencia',
                     'value'=>$model->idDependencia0->nombre
                 ), 
