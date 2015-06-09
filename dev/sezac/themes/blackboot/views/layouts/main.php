@@ -98,6 +98,17 @@ $this->widget(
                     ),                    
                 'visible'=>(!Yii::app()->user->isGuest and Yii::app()->user->getState("tipo") == "Encargado"))
             ),
+             array(
+                'label'=>Yii::t('app','_BENEFICIARIO'),
+                'url' => '#',
+                'items' => array(
+                    array(
+                        'label' => Yii::t('app','_MODIFICAR'), 
+                        'url' => array('/beneficiarios/formBene'),
+                        'visible' =>Yii::app()->user->getState("tipo") == "Beneficiario"
+                    ),                    
+                'visible'=>(!Yii::app()->user->isGuest and Yii::app()->user->getState("tipo") == "Beneficiario"))
+            ),
             array(
                 'label'=>Yii::t('app', 'iniciar sesion'), 
                 'url'=>array('/site/login'), 
