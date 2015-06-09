@@ -139,7 +139,7 @@ class Beneficiarios extends CActiveRecord
         /**
          * Funcion para traerl el arreglo de objetos de beneficiarios u organizaciones
          */
-        public function searchBeneficiarioOrganizacion() 
+        public function searchBeneficiarioOrganizacion($idPrograma) 
         {
             $criteria=new CDbCriteria;
             
@@ -151,7 +151,12 @@ class Beneficiarios extends CActiveRecord
                      ) as nombre,
                     if(Organizaciones.nombre is null,t.rfc,'') as rfc,
                     if(Organizaciones.nombre is null,\"Beneficiario\",\"Organizacion\") as tipo";
-            $criteria->join=("left join Organizaciones on t.idOrganizacion = Organizaciones.id");
+            $criteria->join=(
+                "left join Organizaciones on t.idOrganizacion = Organizaciones.id
+                 left join ProgramasBeneficiarios on (ProgramasBeneficiarios.idBeneficiario = t.id or
+                    ProgramasBeneficiarios.idOrganizacion = Organizaciones.id ) and ProgramasBeneficiarios.idPrograma=".$idPrograma
+            );
+            $criteria->condition="ProgramasBeneficiarios.id is null";
             $criteria->compare('t.nombre',$this->nombre,true);
             $criteria->compare('t.id',$this->id,true);
             $criteria->compare('t.rfc',$this->rfc,true);

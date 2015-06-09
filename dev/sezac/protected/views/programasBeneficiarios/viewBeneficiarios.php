@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 ?>
 <?php $this->widget('booster.widgets.TbGridView',array(
 'id'=>'beneficiarios-grid',
-'dataProvider'=>$model->searchBeneficiarioOrganizacion(),
+'dataProvider'=>$model->searchBeneficiarioOrganizacion($modelPrograma->id),
 'filter'=>$model,
 'columns'=>array(        
 		'nombre',
