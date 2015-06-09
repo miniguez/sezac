@@ -74,6 +74,11 @@ $this->widget(
                         'url' => array('/encargados/admin'),
                         'visible' =>Yii::app()->user->getState("tipo") == "Administrador"
                     ),
+                    array(
+                        'label' => Yii::t('app','_PROGRAMAS'), 
+                        'url' => array('/programas/admin'),
+                        'visible' =>Yii::app()->user->getState("tipo") == "Encargado"
+                    ),
                 ),
                 'visible'=>(!Yii::app()->user->isGuest and (Yii::app()->user->getState("tipo") == "Administrador" || Yii::app()->user->getState("tipo") == "Encargado"))
             ),

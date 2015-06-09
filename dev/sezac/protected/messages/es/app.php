@@ -12,5 +12,8 @@ return array(
     '_ANIOSFISCALES'=>'Años fiscales',
     '_BENEFICIARIOS'=>'Beneficiarios',
     'View'=>'Ver',
-    '_ENCARGADOS'=>'Encargados'
+    '_ENCARGADOS'=>'Encargados',
+    '_REQUISITOS'=>'Requisitos',
+    '_TIPO_ARCHIVO_INVALIDO'=>'El archivo debe de ser PDF',
+    '_PROGRAMAS'=>'Programas'
  );

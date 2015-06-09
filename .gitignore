@@ -3,4 +3,6 @@ dev/sezac/assets/*
 #runtime
 dev/sezac/protected/runtime/*
 #config
-dev/sezac/protected/config/main.php
+dev/sezac/protected/config/*
+#archivos
+dev/sezac/filesAdjuntos/*

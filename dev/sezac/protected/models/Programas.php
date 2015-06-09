@@ -18,6 +18,7 @@
  */
 class Programas extends CActiveRecord
 {
+    public $idDependencia;
     /**
      * @return string the associated database table name
      */
@@ -37,7 +38,7 @@ class Programas extends CActiveRecord
         array('nombre, idUnidadesResponsable, idAniosFiscale', 'required'),
         array('nombre', 'length', 'max'=>255),
         array('archivo', 'length', 'max'=>120),
-        array('idUnidadesResponsable, idAniosFiscale', 'length', 'max'=>10),
+        array('idUnidadesResponsable, idDependencia, idAniosFiscale', 'length', 'max'=>10),
         // The following rule is used by search().
         // @todo Please remove those attributes that should not be searched.
         array('id, nombre, archivo, idUnidadesResponsable, idAniosFiscale', 'safe', 'on'=>'search'),
@@ -66,9 +67,10 @@ class Programas extends CActiveRecord
         return array(
         'id' => 'ID',
         'nombre' => 'Nombre',
-        'archivo' => 'Archivo',
-        'idUnidadesResponsable' => 'Id Unidades Responsable',
-        'idAniosFiscale' => 'Id Anios Fiscale',
+        'archivo' => Yii::t('app','_REQUISITOS'),
+        'idUnidadesResponsable' => 'Unidade responsable',
+        'idAniosFiscale' => 'Año fiscal',
+            'idDependencia'=>'Dependencia'
         );
     }
 
@@ -88,13 +90,12 @@ class Programas extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
-
-        $criteria->compare('id', $this->id, true);
+        $criteria=new CDbCriteria;        
+        $criteria->with=array('idUnidadesResponsable0','idAniosFiscale0');
         $criteria->compare('nombre', $this->nombre, true);
         $criteria->compare('archivo', $this->archivo, true);
-        $criteria->compare('idUnidadesResponsable', $this->idUnidadesResponsable, true);
-        $criteria->compare('idAniosFiscale', $this->idAniosFiscale, true);
+        $criteria->compare('idUnidadesResponsable0.nombre', $this->idUnidadesResponsable, true);
+        $criteria->compare('idAniosFiscale0.nombre', $this->idAniosFiscale, true);
 
         return new CActiveDataProvider(
             $this, array(
@@ -112,5 +113,48 @@ class Programas extends CActiveRecord
     public static function model($className=__CLASS__)
     {
         return parent::model($className);
+    }
+    /**
+     * Funcion para guardar los archivos
+     * @param Programa $model
+     * @param file $archivo
+     * @return int
+     */
+    public function guardarArchivo($model, $archivo) 
+    {        
+        $model->archivo=$model->id."_requisito".".".$archivo->getExtensionName();
+
+        $model->save();
+
+        $dirPicture = $this->getRuta() . 'filesAdjuntos/';
+
+        if ($archivo->saveAs($dirPicture . $model->archivo)) {
+            return 1;
+        } else {
+            return 2; // No fue posible guardar archivo
+        }
+    }
+        
+    /**
+     * Funcion auxiliar para formar ruta
+     * @return string
+     */    
+    public function getRuta() 
+    {
+        $root = Yii::getPathOfAlias('application');
+        $pos = strpos($root, 'protected');
+        $ruta = substr($root, 0, $pos);
+        return $ruta;
+    }
+     /**
+     * funcion para eliminar  archivo 
+     */
+    public function eliminar($archivo) 
+    {
+        $file=$this->getRuta() . 'filesAdjuntos/'.$archivo;        
+        
+        if (file_exists($file)) {
+            unlink($file);
+        }                
     }
 }
