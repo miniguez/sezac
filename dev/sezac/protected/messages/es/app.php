@@ -20,5 +20,7 @@ return array(
     '_BENEFICIARIO'=>'Beneficiario', 
     '_MODIFICAR'=>'Modificar',
     '_INCRIBIR'=>'Inscribir',
-    '_Organizaciones'=>'Organizaciones'
+    '_LISTADOINSCRIPCIONES'=>'Historial de inscripciones',
+    '_MENSAJECONFIRMARCONCLUIR'=>'¿Desea concluir con éxito?',
+    '_MENSAJECONFIRMARVETAR'=>'¿Desea vetar a la organización o beneficiario?'
  );
