@@ -218,7 +218,7 @@ class ProgramasBeneficiariosController extends Controller
               $model = new ProgramasBeneficiarios();
               $model->tipo = $tipo;
               $model->estatus = "EnProceso";
-              $model->fecha = date("Y-m-d");  ;
+              $model->fecha = date("Y-m-d");
               $model->idPrograma=$idPrograma;
               if ($tipo=="Organizacion") {
                   $modelBenefi = Organizaciones::model()->findByPk($id);
@@ -243,6 +243,7 @@ class ProgramasBeneficiariosController extends Controller
              $id = $_GET[Keycode::encriptar("id")];
              $model=$this->loadModel($id);
              $model->estatus ="Concluyo";
+             $model->fechaFin = date("Y-m-d");
              if ($model->save()) {
                  $this->redirect(array('admin'));
                  Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Programa se conluyó correctamente.')); 
@@ -259,9 +260,12 @@ class ProgramasBeneficiariosController extends Controller
              $id = $_GET[Keycode::encriptar("id")];
              $model=$this->loadModel($id);
              $model->estatus ="NoConcluyo";
-             if ($model->save()) {
-                 $this->redirect(array('admin'));
-                 Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Programa se conluyó correctamente.')); 
+             $model->fechaFin = date("Y-m-d");
+             if ($model->save() && $model->vetar()) {
+                 Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'La organización o beneficiario han quedado vetados.')); 
+                 $this->redirect(array('admin'));                 
+             } else {
+                 Yii::app()->user->setFlash('error', array('title' => 'Error!', 'text' => 'Error en operación')); 
              }
              
          } else {
@@ -271,7 +275,7 @@ class ProgramasBeneficiariosController extends Controller
     public function loadModel($id)
     {
         $id = Keycode::desencriptar($id);
-        $model=Dependencias::model()->findByPk($id);
+        $model=ProgramasBeneficiarios::model()->findByPk($id);
         if($model===null) {
             throw new CHttpException(404, 'The requested page does not exist.'); 
         }

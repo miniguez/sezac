@@ -25,6 +25,10 @@ $this->breadcrumbs=array(
                     'name'=>'fecha',
                     'value'=>'$data->fecha'
                 ),
+                array(
+                    'name'=>'fechaFin',
+                    'value'=>'$data->fechaFin'
+                ),
 		'estatus',
 array(
     'class'=>'booster.widgets.TbButtonColumn',
@@ -40,6 +44,7 @@ array(
                 'confirm' => 
                     Yii::t('app', '_MENSAJECONFIRMARCONCLUIR'),
             ),
+            'visible'=>'$data->estatus=="EnProceso"'
         ),
         'vetar'=>array(
             'url'=>'Yii::app()->createUrl("programasBeneficiarios/vetar",'
@@ -51,6 +56,7 @@ array(
                 'confirm' => 
                     Yii::t('app', '_MENSAJECONFIRMARVETAR'),
             ),
+            'visible'=>'$data->estatus=="EnProceso"'
          ),
     )
 ),
