@@ -37,11 +37,11 @@ class ProgramasBeneficiarios extends CActiveRecord
         // will receive user inputs.
         return array(
         array('idPrograma', 'required'),
-        array('tipo', 'length', 'max'=>12),
+        array('tipo,fecha', 'length', 'max'=>12),
         array('estatus, idPrograma, idOrganizacion, idBeneficiario', 'length', 'max'=>10),
         // The following rule is used by search().
         // @todo Please remove those attributes that should not be searched.
-        array('id, tipo, estatus, idPrograma, idOrganizacion, idBeneficiario', 'safe', 'on'=>'search'),
+        array('id, tipo, estatus, idPrograma, idOrganizacion, idBeneficiario, fecha', 'safe', 'on'=>'search'),
         );
     }
 
@@ -69,9 +69,10 @@ class ProgramasBeneficiarios extends CActiveRecord
         'id' => 'ID',
         'tipo' => 'Tipo',
         'estatus' => 'Estatus',
-        'idPrograma' => 'Id Programa',
-        'idOrganizacion' => 'Id Organizacion',
-        'idBeneficiario' => 'Id Beneficiario',
+        'idPrograma' => 'Programa',
+        'idOrganizacion' => 'Organizacion',
+        'idBeneficiario' => 'Beneficiario',
+        'fecha'=>'Fecha'
         );
     }
 
@@ -93,13 +94,13 @@ class ProgramasBeneficiarios extends CActiveRecord
 
         $criteria=new CDbCriteria;
 
-        $criteria->compare('id', $this->id, true);
+        $criteria->with = array("idPrograma0","idOrganizacion0","idBeneficiario0"); 
         $criteria->compare('tipo', $this->tipo, true);
         $criteria->compare('estatus', $this->estatus, true);
-        $criteria->compare('idPrograma', $this->idPrograma, true);
-        $criteria->compare('idOrganizacion', $this->idOrganizacion, true);
-        $criteria->compare('idBeneficiario', $this->idBeneficiario, true);
-
+        $criteria->compare('idPrograma0.nombre', $this->idPrograma, true);
+        $criteria->compare('idOrganizacion0.nombre', $this->idOrganizacion, true);
+        $criteria->compare('concat(idBeneficiario0.nombre," ",idBeneficiario0.apellidoPaterno," ",idBeneficiario0.apellidoMaterno)', $this->idBeneficiario, true);
+        $criteria->compare('DATE_FORMAT(fecha,"%d-%m-%Y")', $this->fecha, true);
         return new CActiveDataProvider(
             $this, array(
             'criteria'=>$criteria,
@@ -116,5 +117,17 @@ class ProgramasBeneficiarios extends CActiveRecord
     public static function model($className=__CLASS__)
     {
         return parent::model($className);
+    }
+    
+    /**
+     * @objetivo Antes de mostrar los resultados de 
+     * la busqueda cambiar el formato de las fechas a dd-mm-yyyy
+     * @param type $options
+     * @return boolean
+     */
+    public function afterFind($options = array()) 
+    {
+        $this->fecha = date('d-m-Y', strtotime($this->fecha));
+        return true;
     }
 }

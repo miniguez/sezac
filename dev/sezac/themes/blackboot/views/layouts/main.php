@@ -95,7 +95,12 @@ $this->widget(
                         'label' => Yii::t('app','_INCRIBIR'), 
                         'url' => array('/programasBeneficiarios/viewProgramas'),
                         'visible' =>Yii::app()->user->getState("tipo") == "Encargado"
-                    ),                    
+                    ),  
+                    array(
+                        'label' => Yii::t('app','_LISTADOINSCRIPCIONES'), 
+                        'url' => array('/programasBeneficiarios/admin'),
+                        'visible' =>Yii::app()->user->getState("tipo") == "Encargado"
+                    ), 
                 ),
                 'visible'=>Yii::app()->user->getState("tipo") == "Encargado"
             ),

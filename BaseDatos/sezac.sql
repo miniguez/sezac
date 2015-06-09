@@ -248,6 +248,7 @@ CREATE TABLE `ProgramasBeneficiarios` (
   `tipo` enum('Beneficiario','Organizacion') NOT NULL DEFAULT 'Beneficiario',
   `estatus` enum('EnProceso','Concluyo','NoConcluyo') DEFAULT NULL,
   `fecha` date NOT NULL,
+  `fechaFin` date DEFAULT NULL,
   `idPrograma` int(10) unsigned NOT NULL,
   `idOrganizacion` int(10) unsigned DEFAULT NULL,
   `idBeneficiario` int(10) unsigned DEFAULT NULL,
@@ -258,7 +259,7 @@ CREATE TABLE `ProgramasBeneficiarios` (
   CONSTRAINT `fk_ProgramasBeneficiarios_Beneficiarios1` FOREIGN KEY (`idBeneficiario`) REFERENCES `Beneficiarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ProgramasBeneficiarios_Organizaciones1` FOREIGN KEY (`idOrganizacion`) REFERENCES `Organizaciones` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ProgramasBeneficiarios_Programas1` FOREIGN KEY (`idPrograma`) REFERENCES `Programas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +268,7 @@ CREATE TABLE `ProgramasBeneficiarios` (
 
 LOCK TABLES `ProgramasBeneficiarios` WRITE;
 /*!40000 ALTER TABLE `ProgramasBeneficiarios` DISABLE KEYS */;
-INSERT INTO `ProgramasBeneficiarios` VALUES (1,'Organizacion','EnProceso','2015-06-09',5,1,NULL);
+INSERT INTO `ProgramasBeneficiarios` VALUES (5,'Beneficiario','EnProceso','2015-06-09',NULL,5,NULL,2),(6,'Organizacion','Concluyo','2015-06-09',NULL,5,1,NULL);
 /*!40000 ALTER TABLE `ProgramasBeneficiarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -324,7 +325,7 @@ CREATE TABLE `Usuarios` (
 
 LOCK TABLES `Usuarios` WRITE;
 /*!40000 ALTER TABLE `Usuarios` DISABLE KEYS */;
-INSERT INTO `Usuarios` VALUES (1,'admin','$2y$10$CeBrlugStS79WRdYVEj8GOU9Joky65YKSAb.9a4p9fPJOhLb5WkDW','Administrador','Administrador',NULL),(2,'encargado','$2y$10$CeBrlugStS79WRdYVEj8GOU9Joky65YKSAb.9a4p9fPJOhLb5WkDW','Encargado','Encargado',NULL),(3,'beneficiario','$2y$10$CeBrlugStS79WRdYVEj8GOU9Joky65YKSAb.9a4p9fPJOhLb5WkDW','Beneficiario','Beneficiario',NULL);
+INSERT INTO `Usuarios` VALUES (1,'admin','$2y$10$CeBrlugStS79WRdYVEj8GOU9Joky65YKSAb.9a4p9fPJOhLb5WkDW','Administrador','Administrador',NULL),(2,'encargado','$2y$10$CeBrlugStS79WRdYVEj8GOU9Joky65YKSAb.9a4p9fPJOhLb5WkDW','Encargado','Encargado',NULL),(3,'beneficiario','$2y$10$CeBrlugStS79WRdYVEj8GOU9Joky65YKSAb.9a4p9fPJOhLb5WkDW','Beneficiario','Beneficiario',2);
 /*!40000 ALTER TABLE `Usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -363,4 +364,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-09 12:55:50
+-- Dump completed on 2015-06-09 15:44:42
