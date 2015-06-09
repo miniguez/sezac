@@ -88,6 +88,17 @@ $this->widget(
                 'visible'=>(!Yii::app()->user->isGuest and (Yii::app()->user->getState("tipo") == "Administrador" || Yii::app()->user->getState("tipo") == "Encargado"))
             ),
             array(
+                'label'=>Yii::t('app','_PROGRAMAS'),
+                'url' => '#',
+                'items' => array(
+                    array(
+                        'label' => Yii::t('app','_INCRIBIR'), 
+                        'url' => array('/programasBeneficiarios/viewProgramas'),
+                        'visible' =>Yii::app()->user->getState("tipo") == "Encargado"
+                    ),                    
+                'visible'=>(!Yii::app()->user->isGuest and Yii::app()->user->getState("tipo") == "Encargado"))
+            ),
+            array(
                 'label'=>Yii::t('app', 'iniciar sesion'), 
                 'url'=>array('/site/login'), 
                 'visible'=>Yii::app()->user->isGuest
