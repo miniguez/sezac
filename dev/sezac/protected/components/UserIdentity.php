@@ -17,6 +17,9 @@ class UserIdentity extends CUserIdentity
             else {                    
                 $this->setState('tipo',$record->tipo);
                 $this->setState('idUsuario',$record->id);
+                if ($record->tipo=='Beneficiario') {
+                    $this->setState('idBeneficiario',$record->idBeneficiario);
+                }
                 $this->errorCode=self::ERROR_NONE;                
             }
             return !$this->errorCode;

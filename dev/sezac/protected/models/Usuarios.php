@@ -34,9 +34,10 @@ class Usuarios extends CActiveRecord
         array('password', 'length', 'max'=>120),
         array('tipo', 'length', 'max'=>13),
         array('nombre', 'length', 'max'=>180),
+        array('idBeneficiario', 'length', 'max'=>10),    
         // The following rule is used by search().
         // @todo Please remove those attributes that should not be searched.
-        array('id, usuario, password, tipo, nombre', 'safe', 'on'=>'search'),
+        array('id, usuario, password, tipo, nombre, idBeneficiario', 'safe', 'on'=>'search'),
         );
     }
 
@@ -62,6 +63,7 @@ class Usuarios extends CActiveRecord
         'password' => 'Password',
         'tipo' => 'Tipo',
         'nombre' => 'Nombre',
+            'idBeneficiario'=>'Beneficiario'
         );
     }
 

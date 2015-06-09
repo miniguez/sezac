@@ -149,7 +149,7 @@ class BeneficiariosController extends Controller
     }
     public function actionFormBene(){
                 //Yii::app()->user->getState("tipo")
-                $id = 1;
+                $id = Yii::app()->user->getState("idBeneficiario");                
                 $model=Beneficiarios::model()->findByPK($id);
                 $model->idEstado=$model->idMunicipio0->idEstado;
                 
