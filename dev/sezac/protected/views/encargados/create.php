@@ -2,7 +2,7 @@
 <?php
 $this->breadcrumbs=array(
 	'Encargados'=>array('admin'),
-	'Create',
+	'Crear',
 );
 
 ?>
