@@ -82,8 +82,9 @@ class Organizaciones extends CActiveRecord
 
         $criteria->compare('id', $this->id, true);
         $criteria->compare('nombre', $this->nombre, true);
-
-        return new CActiveDataProvider(
+        
+        
+            return new CActiveDataProvider(
             $this, array(
             'criteria'=>$criteria,
             )
