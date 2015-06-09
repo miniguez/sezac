@@ -95,7 +95,16 @@ class Usuarios extends CActiveRecord
             )
         );
     }
-
+    public function encriptarPassword($password){
+        $passwordHash = password_hash(
+            $password, 
+            PASSWORD_BCRYPT, 
+            array(
+                'cost' => 10
+            )    
+        );
+        return $passwordHash;
+    }
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!

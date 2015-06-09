@@ -99,7 +99,7 @@
             );
         ?>
 
-	<?php echo $form->textFieldGroup($model,'rfc',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>45)))); ?>
+	
 
 <div class="form-actions">
 	<?php $this->widget('booster.widgets.TbButton', array(

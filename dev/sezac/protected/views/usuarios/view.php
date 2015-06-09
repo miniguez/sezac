@@ -11,7 +11,7 @@
 'attributes'=>array(
 		//'id',
 		'usuario',
-		'password',
+		//'password',
 		'tipo',
 		'nombre',
 ),
