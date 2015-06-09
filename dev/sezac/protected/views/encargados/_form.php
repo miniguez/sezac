@@ -1,10 +1,10 @@
 
-
-<?php $form=$this->beginWidget(
-        'booster.widgets.TbActiveForm',array(
-	'id'=>'encargados-form',
-	'enableAjaxValidation'=>false,
-)); ?>
+<div class="form"> <?php 
+    $form=$this->beginWidget( 
+            'booster.widgets.TbActiveForm', array( 
+             'id'=>'Encargados-form', 
+             'type' => 'horizontal', 
+              'htmlOptions' => array('class' => 'well'), ) ); ?>
 
 <p class="help-block"><?php echo Yii::t('app', 'Fields with') ?>
 <span class="required">*</span><?php echo Yii::t('app', 'are required.') ?></p>
@@ -21,7 +21,25 @@
 
 	<?php echo $form->textFieldGroup($model,'telefono',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>18)))); ?>
 
-	<?php echo $form->textFieldGroup($model,'idDependencia',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>10)))); ?>
+	<?php
+                echo $form->dropDownListGroup(
+                $model, 
+                'idDependencia', 
+                array(
+                    'wrapperHtmlOptions' => array(
+                        'class' => 'col-sm-4',
+                    ), 
+                    'widgetOptions' => array(
+                        'data' => $arrDependencias,
+                        'options' => array(
+                            'placeholder' => 'Seleccione', 
+                            'allowClear' => true,                     
+                        )                
+                    )
+                )
+            ); 
+        ?>
+
 
 <div class="form-actions">
 	<?php $this->widget('booster.widgets.TbButton', array(
@@ -39,3 +57,4 @@
 </div>
 
 <?php $this->endWidget(); ?>
+</div>
