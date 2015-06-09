@@ -12,7 +12,7 @@ $this->breadcrumbs=array(
 'columns'=>array(
 		//'id',
                 'nombre',
-		//'usuario',
+		'usuario',
 		//'password',
 		'tipo',
 		//'nombre',
