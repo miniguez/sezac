@@ -24,7 +24,7 @@ class Beneficiarios extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
-        public $idEstado;
+        public $idEstado,$tipo;
 	public function tableName()
 	{
 		return 'Beneficiarios';
@@ -41,7 +41,7 @@ class Beneficiarios extends CActiveRecord
 			array('nombre, apellidoPaterno, idMunicipio, rfc,idEstado', 'required'),
 			array('nombre, apellidoPaterno, apellidoMaterno', 'length', 'max'=>80),
 			array('direccion', 'length', 'max'=>180),
-			array('telefono', 'length', 'max'=>18),
+			array('telefono,tipo', 'length', 'max'=>18),
 			array('idOrganizacion, idMunicipio, idEstado', 'length', 'max'=>10),
 			array('rfc', 'length', 'max'=>45),
 			// The following rule is used by search().
@@ -149,7 +149,8 @@ class Beneficiarios extends CActiveRecord
                      Organizaciones.nombre is null,concat(t.nombre,\" \",t.apellidoPaterno,\" \",t.apellidoMaterno),
                      Organizaciones.nombre 
                      ) as nombre,
-                    if(Organizaciones.nombre is null,t.rfc,'') as rfc";
+                    if(Organizaciones.nombre is null,t.rfc,'') as rfc,
+                    if(Organizaciones.nombre is null,\"Beneficiario\",\"Organizacion\") as tipo";
             $criteria->join=("left join Organizaciones on t.idOrganizacion = Organizaciones.id");
             $criteria->compare('t.nombre',$this->nombre,true);
             $criteria->compare('t.id',$this->id,true);

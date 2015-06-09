@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
-	'Programas',
-	Yii::t('app', '_INCRIBIR'),
+	'Programas'=>array("viewProgramas"),
+	Yii::t('app', '_INCRIBIR')." a ".$modelPrograma->nombre,
         
 );
 ?>
@@ -11,17 +11,23 @@ $this->breadcrumbs=array(
 'filter'=>$model,
 'columns'=>array(        
 		'nombre',
-                'rfc',              
+                'rfc', 
+                'tipo',
 array(
     'class'=>'booster.widgets.TbButtonColumn',
     'template'=>'{inscribir} ', 
     'buttons'=>array(        
         'inscribir'=>array(
-            'url'=>'Yii::app()->createUrl("programasBeneficiarios/viewBeneficiarios",'
-            .'array(Keycode::encriptar("id")=>'
-            .'Keycode::encriptar($data->id)))',
+            'url'=>'Yii::app()->createUrl("programasBeneficiarios/inscribirBenfiOrg",'
+            .'array(
+                Keycode::encriptar("id")=>Keycode::encriptar($data->id),
+                Keycode::encriptar("idPrograma")=>Keycode::encriptar('.$modelPrograma->id.'),
+                Keycode::encriptar("tipo")=>Keycode::encriptar($data->tipo),
+                )
+             )',
+            
             'label'=>Yii::t('app', '_INCRIBIR'),
-            'icon'=>'plus',
+            'icon'=>'ok',
             'size' => 'small',
         ),       
     )
