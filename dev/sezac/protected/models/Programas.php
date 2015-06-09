@@ -153,7 +153,7 @@ class Programas extends CActiveRecord
     {
         $file=$this->getRuta() . 'filesAdjuntos/'.$archivo;        
         
-        if (file_exists($file)) {
+        if (trim($archivo)!="" && file_exists($file)) {
             unlink($file);
         }                
     }
