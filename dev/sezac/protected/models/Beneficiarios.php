@@ -24,7 +24,7 @@ class Beneficiarios extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
-        public $idEstado;
+        public $idEstado,$tipo;
 	public function tableName()
 	{
 		return 'Beneficiarios';
@@ -41,7 +41,7 @@ class Beneficiarios extends CActiveRecord
 			array('nombre, apellidoPaterno, idMunicipio, rfc,idEstado', 'required'),
 			array('nombre, apellidoPaterno, apellidoMaterno', 'length', 'max'=>80),
 			array('direccion', 'length', 'max'=>180),
-			array('telefono', 'length', 'max'=>18),
+			array('telefono,tipo', 'length', 'max'=>18),
 			array('idOrganizacion, idMunicipio, idEstado', 'length', 'max'=>10),
 			array('rfc', 'length', 'max'=>45),
 			// The following rule is used by search().
@@ -139,7 +139,7 @@ class Beneficiarios extends CActiveRecord
         /**
          * Funcion para traerl el arreglo de objetos de beneficiarios u organizaciones
          */
-        public function searchBeneficiarioOrganizacion() 
+        public function searchBeneficiarioOrganizacion($idPrograma) 
         {
             $criteria=new CDbCriteria;
             
@@ -149,27 +149,32 @@ class Beneficiarios extends CActiveRecord
                      Organizaciones.nombre is null,concat(t.nombre,\" \",t.apellidoPaterno,\" \",t.apellidoMaterno),
                      Organizaciones.nombre 
                      ) as nombre,
-                    if(Organizaciones.nombre is null,t.rfc,'') as rfc";
-            $criteria->join=("left join Organizaciones on t.idOrganizacion = Organizaciones.id");
-            $criteria->compare('t.nombre',$this->nombre,true);
-            $criteria->compare('t.id',$this->id,true);
-            $criteria->compare('t.rfc',$this->rfc,true);
-
+                    if(Organizaciones.nombre is null,t.rfc,'N/A') as rfc,
+                    if(Organizaciones.nombre is null,\"Beneficiario\",\"Organizacion\") as tipo";
+            $criteria->join=(
+                "left join Organizaciones on t.idOrganizacion = Organizaciones.id
+                 left join ProgramasBeneficiarios on (ProgramasBeneficiarios.idBeneficiario = t.id or
+                    ProgramasBeneficiarios.idOrganizacion = Organizaciones.id ) and ProgramasBeneficiarios.idPrograma=".$idPrograma
+            );
+            $criteria->condition="ProgramasBeneficiarios.id is null";
+            $criteria->compare('t.nombre',$this->nombre,true);            
+            $criteria->compare('if(Organizaciones.nombre is null,t.rfc,\'N/A\')',$this->rfc,true);
+            $criteria->compare('if(Organizaciones.nombre is null,\'Beneficiario\',\'Organizacion\')',$this->tipo,true);
             return new CActiveDataProvider(
              $this, array(
                 'criteria'=>$criteria,
-                /*'sort'=> array(
+                'sort'=> array(
                     'defaultOrder' => 't.id DESC',
                     'attributes'=>
                         array(
-                            'idEstado'=>
+                            'tipo'=>
                                 array(
-                                    'asc'=>'idEstado0.nombre ASC',
-                                    'desc'=>'idEstado0.nombre DESC',
+                                    'asc'=>'tipo ASC',
+                                    'desc'=>'tipo DESC',
                                 ),                            
                             '*',
                         ),
-                ),*/
+                ),
             )
             );
                        

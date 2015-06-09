@@ -23,33 +23,16 @@ class BeneficiariosController extends Controller
                 'expression'=>
                     ' Yii::app()->user->getState("tipo") == "Encargado"'
             ),
+            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions'=>array('actionFormBene','formBene'),
+                'expression'=>
+                    ' Yii::app()->user->getState("tipo") == "Beneficiario"'
+            ),
             array('deny',  // deny all users
                 'users'=>array('*'),
             ),
         );                     
     }
-
-
-  /* public function accessRules()
-    {
-        return array(
-            array('allow',  // allow all users to perform 'index' and 'view' actions
-            'actions'=>array('index','view'),
-            'users'=>array('*'),
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-            'actions'=>array('create','update'),
-            'users'=>array('*'),
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-            'actions'=>array('admin','delete','getMunicipios'),
-            'users'=>array('*'),
-            ),
-            array('deny',  // deny all users
-            'users'=>array('*'),
-            ),
-        );
-    }*/
 
 /**
 * Displays a particular model.
@@ -163,6 +146,55 @@ class BeneficiariosController extends Controller
                 ));
          }
 
+    }
+    public function actionFormBene(){
+                //Yii::app()->user->getState("tipo")
+                $id = Yii::app()->user->getState("idBeneficiario");                
+                $model=Beneficiarios::model()->findByPK($id);
+                $model->idEstado=$model->idMunicipio0->idEstado;
+                
+                $arrBeneficiarios = CHtml::listData(
+                    Organizaciones::model()->findAll(),
+                    'id',
+                    'nombre'
+                );
+                $arrEstados = CHtml::listData(
+                    Estados::model()->findAll(),
+                    'id',
+                    'nombre'
+                );
+                 $arrMunicipios = CHtml::listData(
+                    Municipios::model()->findAll( 
+                            'idEstado=:param1',
+                            array(
+                                ':param1'=>$model->idEstado
+                            )    
+                     ),
+                    'id',
+                    'nombre'
+                );
+
+                if (isset($_POST["yt0"]) ) {
+                    $this->redirect(array('site/index'));
+                }
+                        // Uncomment the following line if AJAX validation is needed
+                        // $this->performAjaxValidation($model);
+
+                if(isset($_POST['Beneficiarios']))
+                {
+                $model->attributes=$_POST['Beneficiarios'];
+                if($model->save())
+                    Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se guardó correctamente.'));
+                $this->redirect(array('site/index'));
+                }
+                
+                $this->render('formBene',array(
+                   'model'=>$model,
+                   // 'arrBeneficiarios'=>$arrBeneficiarios,
+                   // 'arrEstados'=>$arrEstados,
+                   // 'arrMunicipios'=>$arrMunicipios
+                ));
+         
     }
 
     /**

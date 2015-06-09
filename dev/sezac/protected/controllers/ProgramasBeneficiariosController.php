@@ -27,7 +27,7 @@ class ProgramasBeneficiariosController extends Controller
     {
         return array(
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions'=>array('admin','viewProgramas','viewBeneficiarios'),
+                'actions'=>array('admin','viewProgramas','viewBeneficiarios','inscribirBenfiOrg'),
                 'expression'=>
                     ' Yii::app()->user->getState("tipo") == "Encargado"'
             ),
@@ -186,7 +186,7 @@ class ProgramasBeneficiariosController extends Controller
         if(isset($_GET['Programas'])) {
             $model->attributes=$_GET['Programas']; 
         }
-
+        
         $this->render(
             'viewProgramas', array(
             'model'=>$model,
@@ -196,16 +196,57 @@ class ProgramasBeneficiariosController extends Controller
     
     public function actionViewBeneficiarios()
     {
-        $model=new Beneficiarios('searchBeneficiarioOrganizacion');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Beneficiarios'])) {
-            $model->attributes=$_GET['Programas']; 
-        }
+        
+        if (isset($_GET[Keycode::encriptar("id")])) {
+            $id = $_GET[Keycode::encriptar("id")];            
+            $id = Keycode::desencriptar($id);
+            $modelPrograma=Programas::model()->findByPk($id);
+            if($modelPrograma===null) {
+                throw new CHttpException(404, 'The requested page does not exist.'); 
+            }
+            $model=new Beneficiarios('searchBeneficiariosOrganizaciones');
+            $model->unsetAttributes();  // clear any default values
+            if(isset($_GET['Beneficiarios'])) {
+                $model->attributes=$_GET['Beneficiarios']; 
+            }
 
-        $this->render(
-            'viewBeneficiarios', array(
-            'model'=>$model,
-            )
-        );
+            $this->render(
+                'viewBeneficiarios', array(
+                    'model'=>$model,
+                    'modelPrograma'=>$modelPrograma
+                )
+            );
+        } else {
+            throw new CHttpException(404, 'The requested page does not exist.'); 
+        }
+    }
+    
+    public function actionInscribirBenfiOrg()
+    {
+        if (isset($_GET[Keycode::encriptar("id")]) && isset($_GET[Keycode::encriptar("idPrograma")]) && isset($_GET[Keycode::encriptar("tipo")])) {
+              $tipo = Keycode::desencriptar($_GET[Keycode::encriptar("tipo")]);
+              $id = Keycode::desencriptar($_GET[Keycode::encriptar("id")]);
+              $idPrograma = Keycode::desencriptar($_GET[Keycode::encriptar("idPrograma")]);
+              $model = new ProgramasBeneficiarios();
+              $model->tipo = $tipo;
+              $model->estatus = "EnProceso";
+              $model->fecha = date("Y-m-d");  ;
+              $model->idPrograma=$idPrograma;
+              if ($tipo=="Organizacion") {
+                  $modelBenefi = Organizaciones::model()->findByPk($id);
+                  $model->idOrganizacion = $modelBenefi->id;
+              } else if($tipo=="Beneficiario") {
+                  $modelBenefi = Beneficiarios::model()->findByPk($id);
+                  $model->idBeneficiario = $modelBenefi->id;
+              }
+              if ($model->save()) {
+                  Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se creó correctamente.')); 
+                  $this->redirect(array('viewProgramas'));
+              }
+
+        } else {
+            throw new CHttpException(404, 'The requested page does not exist.'); 
+        }
+        
     }
 }
