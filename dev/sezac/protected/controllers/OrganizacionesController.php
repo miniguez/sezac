@@ -48,11 +48,16 @@ array('deny',  // deny all users
 * Displays a particular model.
 * @param integer $id the ID of the model to be displayed
 */
-public function actionView($id)
+public function actionView()
 {
-$this->render('view',array(
-'model'=>$this->loadModel($id),
-));
+if (isset($_GET[Keycode::encriptar("id")])) {
+            $id = $_GET[Keycode::encriptar("id")];
+            $model=$this->loadModel($id);
+            $this->render('view',array(
+            'model'=>$this->loadModel($id),
+    
+            ));
+    }
 }
 
 /**
@@ -76,7 +81,7 @@ if(isset($_POST['Organizaciones']))
 $model->attributes=$_POST['Organizaciones'];
 if($model->save())
     Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se creó correctamente.'));     
-$this->redirect(array('view','id'=>$model->id));
+$this->redirect(array('admin'));
 }
 
 $this->render('create',array(
@@ -89,23 +94,27 @@ $this->render('create',array(
 * If update is successful, the browser will be redirected to the 'view' page.
 * @param integer $id the ID of the model to be updated
 */
-public function actionUpdate($id)
+public function actionUpdate()
 {
-$model=$this->loadModel($id);
+    if (isset($_GET[Keycode::encriptar("id")])) {
+                $id = $_GET[Keycode::encriptar("id")];
+                $model=$this->loadModel($id);
 
-// Uncomment the following line if AJAX validation is needed
-// $this->performAjaxValidation($model);
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
-if(isset($_POST['Organizaciones']))
-{
-$model->attributes=$_POST['Organizaciones'];
-if($model->save())
-$this->redirect(array('view','id'=>$model->id));
-}
+        if(isset($_POST['Organizaciones']))
+        {
+        $model->attributes=$_POST['Organizaciones'];
+        if($model->save())
+            Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se guardó correctamente.'));
+        $this->redirect(array('admin'));
+        }
 
-$this->render('update',array(
-'model'=>$model,
-));
+        $this->render('update',array(
+        'model'=>$model,
+        ));
+    }
 }
 
 /**
@@ -113,19 +122,20 @@ $this->render('update',array(
 * If deletion is successful, the browser will be redirected to the 'admin' page.
 * @param integer $id the ID of the model to be deleted
 */
-public function actionDelete($id)
+public function actionDelete()
 {
-if(Yii::app()->request->isPostRequest)
-{
-// we only allow deletion via POST request
-$this->loadModel($id)->delete();
-
-// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-if(!isset($_GET['ajax']))
-$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-}
-else
-throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+        if (isset($_GET[Keycode::encriptar("id")])) {
+            $id = $_GET[Keycode::encriptar("id")];
+            $model = $this->loadModel($id);
+            try {
+                $model->delete();  
+                Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro fue eliminado.')); 
+                $this->redirect(array('admin'));
+            } catch (Exception $e) {
+                Yii::app()->user->setFlash('danger', array('title' => 'Error!', 'text' => 'El Registro no puede ser eliminado.'));
+                $this->redirect(array('admin'));
+            }
+        }
 }
 
 /**
@@ -161,6 +171,7 @@ $this->render('admin',array(
 */
 public function loadModel($id)
 {
+    $id = Keycode::desencriptar($id);
 $model=Organizaciones::model()->findByPk($id);
 if($model===null)
 throw new CHttpException(404,'The requested page does not exist.');
