@@ -149,7 +149,7 @@ class Beneficiarios extends CActiveRecord
                      Organizaciones.nombre is null,concat(t.nombre,\" \",t.apellidoPaterno,\" \",t.apellidoMaterno),
                      Organizaciones.nombre 
                      ) as nombre,
-                    if(Organizaciones.nombre is null,t.rfc,'') as rfc,
+                    if(Organizaciones.nombre is null,t.rfc,'N/A') as rfc,
                     if(Organizaciones.nombre is null,\"Beneficiario\",\"Organizacion\") as tipo";
             $criteria->join=(
                 "left join Organizaciones on t.idOrganizacion = Organizaciones.id
@@ -157,25 +157,24 @@ class Beneficiarios extends CActiveRecord
                     ProgramasBeneficiarios.idOrganizacion = Organizaciones.id ) and ProgramasBeneficiarios.idPrograma=".$idPrograma
             );
             $criteria->condition="ProgramasBeneficiarios.id is null";
-            $criteria->compare('t.nombre',$this->nombre,true);
-            $criteria->compare('t.id',$this->id,true);
-            $criteria->compare('t.rfc',$this->rfc,true);
-
+            $criteria->compare('t.nombre',$this->nombre,true);            
+            $criteria->compare('if(Organizaciones.nombre is null,t.rfc,\'N/A\')',$this->rfc,true);
+            $criteria->compare('if(Organizaciones.nombre is null,\'Beneficiario\',\'Organizacion\')',$this->tipo,true);
             return new CActiveDataProvider(
              $this, array(
                 'criteria'=>$criteria,
-                /*'sort'=> array(
+                'sort'=> array(
                     'defaultOrder' => 't.id DESC',
                     'attributes'=>
                         array(
-                            'idEstado'=>
+                            'tipo'=>
                                 array(
-                                    'asc'=>'idEstado0.nombre ASC',
-                                    'desc'=>'idEstado0.nombre DESC',
+                                    'asc'=>'tipo ASC',
+                                    'desc'=>'tipo DESC',
                                 ),                            
                             '*',
                         ),
-                ),*/
+                ),
             )
             );
                        

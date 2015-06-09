@@ -207,7 +207,7 @@ class ProgramasBeneficiariosController extends Controller
             $model=new Beneficiarios('searchBeneficiariosOrganizaciones');
             $model->unsetAttributes();  // clear any default values
             if(isset($_GET['Beneficiarios'])) {
-                $model->attributes=$_GET['Programas']; 
+                $model->attributes=$_GET['Beneficiarios']; 
             }
 
             $this->render(
