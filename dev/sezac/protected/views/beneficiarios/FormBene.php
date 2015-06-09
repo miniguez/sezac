@@ -1,6 +1,8 @@
 
 <div class="form">
-<?php $form=$this->beginWidget(
+<?php 
+    
+    $form=$this->beginWidget(
     'booster.widgets.TbActiveForm', array(
         'id'=>'beneficiarios1-form',
         'type' => 'horizontal',

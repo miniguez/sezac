@@ -18,6 +18,6 @@ return array(
     '_PROGRAMAS'=>'Programas',
     '_USUARIOS'=>'Usuarios',
     '_BENEFICIARIO'=>'Beneficiario', 
-    '_MODIFICAR'=>'Modificar',
+    '_MODIFICAR'=>'Modificar Datos',
     '_INCRIBIR'=>'Inscribir'
  );
