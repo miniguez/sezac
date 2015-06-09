@@ -7,19 +7,24 @@ class UsuariosController extends Controller{
     */
     public $layout='//layouts/column2';
 
-    public function filters()
-    {
-    return array(
-    'accessControl', // perform access control for CRUD operations
-    );
+    public function filters() {
+        return array(
+            array(
+                'application.filters.YXssFilter',
+                'clean' => '*',
+                'tags' => 'strict',
+                'actions' => 'all'
+            ), 'accessControl',
+        );
     }
+    
 
     /**
     * Specifies the access control rules.
     * This method is used by the 'accessControl' filter.
     * @return array access control rules
     */
-    public function accessRules(){
+   /* public function accessRules(){
         return array(
         array('allow',  // allow all users to perform 'index' and 'view' actions
         'actions'=>array('index','view'),
@@ -37,6 +42,19 @@ class UsuariosController extends Controller{
         'users'=>array('*'),
         ),
         );
+    }*/
+     public function accessRules()
+    {
+        return array(
+            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions'=>array('view','create','update','admin','delete'),
+                'expression'=>
+                    ' Yii::app()->user->getState("tipo") == "Administrador"'
+            ),
+            array('deny',  // deny all users
+                'users'=>array('*'),
+            ),
+        );                     
     }
 
     /**
