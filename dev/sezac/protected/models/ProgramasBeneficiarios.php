@@ -37,11 +37,11 @@ class ProgramasBeneficiarios extends CActiveRecord
         // will receive user inputs.
         return array(
         array('idPrograma', 'required'),
-        array('tipo,fecha', 'length', 'max'=>12),
+        array('tipo,fecha,fechaFin', 'length', 'max'=>12),
         array('estatus, idPrograma, idOrganizacion, idBeneficiario', 'length', 'max'=>10),
         // The following rule is used by search().
         // @todo Please remove those attributes that should not be searched.
-        array('id, tipo, estatus, idPrograma, idOrganizacion, idBeneficiario, fecha', 'safe', 'on'=>'search'),
+        array('id, tipo, estatus, idPrograma, idOrganizacion, idBeneficiario, fecha, fechaFin', 'safe', 'on'=>'search'),
         );
     }
 
@@ -72,7 +72,8 @@ class ProgramasBeneficiarios extends CActiveRecord
         'idPrograma' => 'Programa',
         'idOrganizacion' => 'Organizacion',
         'idBeneficiario' => 'Beneficiario',
-        'fecha'=>'Fecha'
+        'fecha'=>'Fecha inicio',
+        'fechaFin'=>'Fecha final'
         );
     }
 
@@ -128,6 +129,7 @@ class ProgramasBeneficiarios extends CActiveRecord
     public function afterFind($options = array()) 
     {
         $this->fecha = date('d-m-Y', strtotime($this->fecha));
+        $this->fechaFin = date('d-m-Y', strtotime($this->fechaFin));
         return true;
     }
 }
