@@ -28,16 +28,16 @@
 	<?php echo CHtml::encode($data->idOrganizacion); ?>
 	<br />
 
-	<?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('idMunicipio')); ?>:</b>
-	<?php echo CHtml::encode($data->idMunicipio); ?>
-	<br />
+     
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('rfc')); ?>:</b>
-	<?php echo CHtml::encode($data->rfc); ?>
-	<br />
-
-	*/ ?>
- 
         
 </div>
+<div class="form-actions">
+            <?php $this->widget('booster.widgets.TbButton', array(
+                            'buttonType'=>'submit',
+                            'context'=>'danger',
+                            'size' => 'small',
+                            'label'=>'Cancelar',
+                    )); ?>
+
+    </div>

@@ -10,7 +10,9 @@
             '_form', 
             array(
                 'model'=>$model,
-                'arrBeneficiarios'=>$arrBeneficiarios
+                'arrBeneficiarios'=>$arrBeneficiarios,
+                'arrEstados'=>$arrEstados,
+                'arrMunicipios'=>$arrMunicipios
             )
     ); 
 ?>
