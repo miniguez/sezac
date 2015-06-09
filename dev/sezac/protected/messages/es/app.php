@@ -15,5 +15,6 @@ return array(
     '_ENCARGADOS'=>'Encargados',
     '_REQUISITOS'=>'Requisitos',
     '_TIPO_ARCHIVO_INVALIDO'=>'El archivo debe de ser PDF',
-    '_PROGRAMAS'=>'Programas'
+    '_PROGRAMAS'=>'Programas',
+    '_USUARIOS'=>'Usuarios'
  );
