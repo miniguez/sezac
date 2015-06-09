@@ -19,6 +19,29 @@
 
 	<?php echo $form->textFieldGroup($model,'nombre',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>180)))); ?>
 
+         <?php              
+            echo $form->dropDownListGroup(
+                $model, 
+                'idBeneficiario', 
+                array(
+                    'wrapperHtmlOptions' => array(
+                        'class' => 'col-sm-4',
+                    ), 
+                    'widgetOptions' => array(
+                        'data' => $arrBeneficiarios,
+                        'options' => array(
+                            'placeholder' => 'Seleccione', 
+                            'allowClear' => true,                     
+                        ),
+                        'htmlOptions' => array(   
+                            'prompt' => 'Seleccione',
+                        )
+                    )
+                )
+            );
+        ?>
+
+
 <div class="form-actions">
         <?php $this->widget('booster.widgets.TbButton', array(
 			'buttonType'=>'submit',

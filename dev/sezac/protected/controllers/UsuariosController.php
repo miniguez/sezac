@@ -77,6 +77,11 @@ class UsuariosController extends Controller{
     */
     public function actionCreate(){
          $model=new Usuarios;
+         $arrBeneficiarios = CHtml::listData(
+            Beneficiarios::model()->findAll(),
+            'id',
+            'nombre'
+        );
         if (isset($_POST["yt0"]) ) {
                     $this->redirect(array('admin'));
          }
@@ -91,6 +96,7 @@ class UsuariosController extends Controller{
         }
         $this->render('create',array(
         'model'=>$model,
+        'arrBeneficiarios'=>$arrBeneficiarios,
         ));
     }
 
@@ -103,6 +109,11 @@ class UsuariosController extends Controller{
     {
           if (isset($_GET[Keycode::encriptar("id")])) {
             $id = $_GET[Keycode::encriptar("id")];
+             $arrBeneficiarios = CHtml::listData(
+                Beneficiarios::model()->findAll(),
+                'id',
+                'nombre'
+            );
             $model=$this->loadModel($id);
             $password=$model->password;
             $model->password=FALSE;
@@ -122,7 +133,8 @@ class UsuariosController extends Controller{
             }
 
             $this->render('update',array(
-            'model'=>$model,
+                'model'=>$model,
+                'arrBeneficiarios'=>$arrBeneficiarios
             ));
         }
     }

@@ -129,7 +129,36 @@ class ProgramasBeneficiarios extends CActiveRecord
     public function afterFind($options = array()) 
     {
         $this->fecha = date('d-m-Y', strtotime($this->fecha));
-        $this->fechaFin = date('d-m-Y', strtotime($this->fechaFin));
+        if ($this->fechaFin) {
+            $this->fechaFin = date('d-m-Y', strtotime($this->fechaFin));
+        }
         return true;
     }
+    /**
+     * @objetivo Al guardar verificar que las fechas esten en 
+     * el formato de la base de datos yyyy-mm-dd
+     * @param type $options
+     * @return boolean
+     */
+    public function beforeSave($options = array()) 
+    {        
+        $this->fecha = date('Y-m-d', strtotime($this->fecha));
+        $this->fechaFin = date('Y-m-d', strtotime($this->fechaFin));
+        return true;
+    }
+    /**
+     * Función para vetar organizaciones o beneficiarios
+     * @return boolean
+     */
+    public function Vetar()
+    {
+        $model = new Vetados;
+        $model->fecha = date("Y-m-d");
+        $model->idProgramasBeneficiario= $this->id;
+        if ($model->save()){
+            return true;
+        }
+        return false;
+    }
+    
 }
