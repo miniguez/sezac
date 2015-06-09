@@ -76,13 +76,15 @@ class UsuariosController extends Controller{
     * If creation is successful, the browser will be redirected to the 'view' page.
     */
     public function actionCreate(){
-          $model=new Usuarios;
-         if (isset($_POST["yt0"]) ) {
+         $model=new Usuarios;
+        if (isset($_POST["yt0"]) ) {
                     $this->redirect(array('admin'));
          }
         if(isset($_POST['Usuarios'])){
             $model->attributes=$_POST['Usuarios'];
+            $model->password=$model->encriptarPassword($model->password);
             if($model->save()){
+                
                 Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se creó correctamente.'));     
                 $this->redirect(array('admin'));
             }
@@ -102,15 +104,21 @@ class UsuariosController extends Controller{
           if (isset($_GET[Keycode::encriptar("id")])) {
             $id = $_GET[Keycode::encriptar("id")];
             $model=$this->loadModel($id);
+            $password=$model->password;
+            $model->password=FALSE;
             if (isset($_POST["yt0"]) ) {
                 $this->redirect(array('admin'));
             }
-            if(isset($_POST['Usuarios']))
-            {
-            $model->attributes=$_POST['Usuarios'];
-            if($model->save())
-                Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se guardó correctamente.'));
-            $this->redirect(array('admin'));
+            if(isset($_POST['Usuarios'])){
+                $model->attributes=$_POST['Usuarios'];
+                $model->password=$model->encriptarPassword($model->password);
+                if(trim($model->password)==''){
+                    $model->password=$password;
+                    $model->password=$model->encriptarPassword($model->password);
+                }
+                if($model->save())
+                    Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se guardó correctamente.'));
+                $this->redirect(array('admin'));
             }
 
             $this->render('update',array(

@@ -92,7 +92,7 @@ class Programas extends CActiveRecord
 
         $criteria=new CDbCriteria;        
         $criteria->with=array('idUnidadesResponsable0','idAniosFiscale0');
-        $criteria->compare('nombre', $this->nombre, true);
+        $criteria->compare('t.nombre', $this->nombre, true);
         $criteria->compare('archivo', $this->archivo, true);
         $criteria->compare('idUnidadesResponsable0.nombre', $this->idUnidadesResponsable, true);
         $criteria->compare('idAniosFiscale0.nombre', $this->idAniosFiscale, true);
