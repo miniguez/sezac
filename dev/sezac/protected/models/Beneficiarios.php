@@ -136,4 +136,42 @@ class Beneficiarios extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        /**
+         * Funcion para traerl el arreglo de objetos de beneficiarios u organizaciones
+         */
+        public function searchBeneficiarioOrganizacion() 
+        {
+            $criteria=new CDbCriteria;
+            
+            $criteria->select=
+                    "if(Organizaciones.nombre is null,t.id,Organizaciones.id) as id,
+                     if(
+                     Organizaciones.nombre is null,concat(t.nombre,\" \",t.apellidoPaterno,\" \",t.apellidoMaterno),
+                     Organizaciones.nombre 
+                     ) as nombre,
+                    if(Organizaciones.nombre is null,t.rfc,'') as rfc";
+            $criteria->join=("left join Organizaciones on t.idOrganizacion = Organizaciones.id");
+            $criteria->compare('t.nombre',$this->nombre,true);
+            $criteria->compare('t.id',$this->id,true);
+            $criteria->compare('t.rfc',$this->rfc,true);
+
+            return new CActiveDataProvider(
+             $this, array(
+                'criteria'=>$criteria,
+                /*'sort'=> array(
+                    'defaultOrder' => 't.id DESC',
+                    'attributes'=>
+                        array(
+                            'idEstado'=>
+                                array(
+                                    'asc'=>'idEstado0.nombre ASC',
+                                    'desc'=>'idEstado0.nombre DESC',
+                                ),                            
+                            '*',
+                        ),
+                ),*/
+            )
+            );
+                       
+        }
 }

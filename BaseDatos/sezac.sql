@@ -61,7 +61,7 @@ CREATE TABLE `Beneficiarios` (
   KEY `fk_Beneficiarios_Municipios1_idx` (`idMunicipio`),
   CONSTRAINT `fk_Beneficiarios_Municipios1` FOREIGN KEY (`idMunicipio`) REFERENCES `Municipios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Beneficiarios_Organizaciones1` FOREIGN KEY (`idOrganizacion`) REFERENCES `Organizaciones` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,6 +70,7 @@ CREATE TABLE `Beneficiarios` (
 
 LOCK TABLES `Beneficiarios` WRITE;
 /*!40000 ALTER TABLE `Beneficiarios` DISABLE KEYS */;
+INSERT INTO `Beneficiarios` VALUES (1,'Beneficiario1','test1','','IIGM7788','','',1,14),(2,'Beneficiario2','test1','','IIGM7788','','',NULL,14);
 /*!40000 ALTER TABLE `Beneficiarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,7 +141,7 @@ CREATE TABLE `Estados` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(65) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,6 +150,7 @@ CREATE TABLE `Estados` (
 
 LOCK TABLES `Estados` WRITE;
 /*!40000 ALTER TABLE `Estados` DISABLE KEYS */;
+INSERT INTO `Estados` VALUES (32,'Zacatecas');
 /*!40000 ALTER TABLE `Estados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,7 +168,7 @@ CREATE TABLE `Municipios` (
   PRIMARY KEY (`id`),
   KEY `fk_Municipios_Estados1_idx` (`idEstado`),
   CONSTRAINT `fk_Municipios_Estados1` FOREIGN KEY (`idEstado`) REFERENCES `Estados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,6 +177,7 @@ CREATE TABLE `Municipios` (
 
 LOCK TABLES `Municipios` WRITE;
 /*!40000 ALTER TABLE `Municipios` DISABLE KEYS */;
+INSERT INTO `Municipios` VALUES (14,'Guadalupe',32),(56,'Zacatecas',32);
 /*!40000 ALTER TABLE `Municipios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,7 +192,7 @@ CREATE TABLE `Organizaciones` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(180) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,6 +201,7 @@ CREATE TABLE `Organizaciones` (
 
 LOCK TABLES `Organizaciones` WRITE;
 /*!40000 ALTER TABLE `Organizaciones` DISABLE KEYS */;
+INSERT INTO `Organizaciones` VALUES (1,'Organizacion1'),(2,'Organizacion2');
 /*!40000 ALTER TABLE `Organizaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +223,7 @@ CREATE TABLE `Programas` (
   KEY `fk_Programas_aniosFiscales1_idx` (`idAniosFiscale`),
   CONSTRAINT `fk_Programas_UnidadesResponsables1` FOREIGN KEY (`idUnidadesResponsable`) REFERENCES `UnidadesResponsables` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Programas_aniosFiscales1` FOREIGN KEY (`idAniosFiscale`) REFERENCES `AniosFiscales` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,6 +232,7 @@ CREATE TABLE `Programas` (
 
 LOCK TABLES `Programas` WRITE;
 /*!40000 ALTER TABLE `Programas` DISABLE KEYS */;
+INSERT INTO `Programas` VALUES (5,'Programa prueba 1',NULL,7,2),(6,'Programa prueba 2','6_requisito.pdf',7,2);
 /*!40000 ALTER TABLE `Programas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,6 +247,7 @@ CREATE TABLE `ProgramasBeneficiarios` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `tipo` enum('Beneficiario','Organizacion') NOT NULL DEFAULT 'Beneficiario',
   `estatus` enum('EnProceso','Concluyo','NoConcluyo') DEFAULT NULL,
+  `fecha` date NOT NULL,
   `idPrograma` int(10) unsigned NOT NULL,
   `idOrganizacion` int(10) unsigned DEFAULT NULL,
   `idBeneficiario` int(10) unsigned DEFAULT NULL,
@@ -278,7 +284,7 @@ CREATE TABLE `UnidadesResponsables` (
   PRIMARY KEY (`id`),
   KEY `fk_UnidadesResponsables_Encargados1_idx` (`idEncargado`),
   CONSTRAINT `fk_UnidadesResponsables_Encargados1` FOREIGN KEY (`idEncargado`) REFERENCES `Encargados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +293,7 @@ CREATE TABLE `UnidadesResponsables` (
 
 LOCK TABLES `UnidadesResponsables` WRITE;
 /*!40000 ALTER TABLE `UnidadesResponsables` DISABLE KEYS */;
-INSERT INTO `UnidadesResponsables` VALUES (7,'Prueba 1',1);
+INSERT INTO `UnidadesResponsables` VALUES (7,'Prueba 1',1),(8,'Prueba 2',2);
 /*!40000 ALTER TABLE `UnidadesResponsables` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -353,4 +359,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-08 15:47:25
+-- Dump completed on 2015-06-09 11:57:23

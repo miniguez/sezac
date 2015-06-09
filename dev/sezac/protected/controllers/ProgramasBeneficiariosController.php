@@ -27,7 +27,7 @@ class ProgramasBeneficiariosController extends Controller
     {
         return array(
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions'=>array('admin','viewProgramas'),
+                'actions'=>array('admin','viewProgramas','viewBeneficiarios'),
                 'expression'=>
                     ' Yii::app()->user->getState("tipo") == "Encargado"'
             ),
@@ -196,14 +196,14 @@ class ProgramasBeneficiariosController extends Controller
     
     public function actionViewBeneficiarios()
     {
-        $model=new Programas('searchBeneficiariosOrganizaciones');
+        $model=new Beneficiarios('searchBeneficiarioOrganizacion');
         $model->unsetAttributes();  // clear any default values
         if(isset($_GET['Beneficiarios'])) {
             $model->attributes=$_GET['Programas']; 
         }
 
         $this->render(
-            'viewProgramas', array(
+            'viewBeneficiarios', array(
             'model'=>$model,
             )
         );
