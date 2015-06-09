@@ -27,7 +27,7 @@ class ProgramasBeneficiariosController extends Controller
     {
         return array(
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions'=>array('admin','viewProgramas','viewBeneficiarios','inscribirBenfiOrg'),
+                'actions'=>array('admin','viewProgramas','viewBeneficiarios','inscribirBenfiOrg','concluir','vetar'),
                 'expression'=>
                     ' Yii::app()->user->getState("tipo") == "Encargado"'
             ),
@@ -153,19 +153,7 @@ class ProgramasBeneficiariosController extends Controller
         );
     }
 
-    /**
-* Returns the data model based on the primary key given in the GET variable.
-* If the data model is not found, an HTTP exception will be raised.
-* @param integer the ID of the model to be loaded
-*/
-    public function loadModel($id)
-    {
-        $model=ProgramasBeneficiarios::model()->findByPk($id);
-        if($model===null) {
-            throw new CHttpException(404, 'The requested page does not exist.'); 
-        }
-        return $model;
-    }
+
 
     /**
 * Performs the AJAX validation.
@@ -230,7 +218,7 @@ class ProgramasBeneficiariosController extends Controller
               $model = new ProgramasBeneficiarios();
               $model->tipo = $tipo;
               $model->estatus = "EnProceso";
-              $model->fecha = date("Y-m-d");  ;
+              $model->fecha = date("Y-m-d");
               $model->idPrograma=$idPrograma;
               if ($tipo=="Organizacion") {
                   $modelBenefi = Organizaciones::model()->findByPk($id);
@@ -246,7 +234,51 @@ class ProgramasBeneficiariosController extends Controller
 
         } else {
             throw new CHttpException(404, 'The requested page does not exist.'); 
+        }        
+    }
+    
+    public function actionConcluir() 
+    {
+         if (isset($_GET[Keycode::encriptar("id")])) {
+             $id = $_GET[Keycode::encriptar("id")];
+             $model=$this->loadModel($id);
+             $model->estatus ="Concluyo";
+             $model->fechaFin = date("Y-m-d");
+             if ($model->save()) {
+                 $this->redirect(array('admin'));
+                 Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Programa se conluyó correctamente.')); 
+             }
+             
+         } else {
+             throw new CHttpException(404, 'The requested page does not exist.'); 
+         }
+    }
+    
+    public function actionVetar() 
+    {
+         if (isset($_GET[Keycode::encriptar("id")])) {
+             $id = $_GET[Keycode::encriptar("id")];
+             $model=$this->loadModel($id);
+             $model->estatus ="NoConcluyo";
+             $model->fechaFin = date("Y-m-d");
+             if ($model->save() && $model->vetar()) {
+                 Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'La organización o beneficiario han quedado vetados.')); 
+                 $this->redirect(array('admin'));                 
+             } else {
+                 Yii::app()->user->setFlash('error', array('title' => 'Error!', 'text' => 'Error en operación')); 
+             }
+             
+         } else {
+             throw new CHttpException(404, 'The requested page does not exist.'); 
+         }
+    }
+    public function loadModel($id)
+    {
+        $id = Keycode::desencriptar($id);
+        $model=ProgramasBeneficiarios::model()->findByPk($id);
+        if($model===null) {
+            throw new CHttpException(404, 'The requested page does not exist.'); 
         }
-        
+        return $model;
     }
 }

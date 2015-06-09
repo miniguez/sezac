@@ -95,18 +95,21 @@ class Beneficiarios extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($idOrganizacion = null)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
                 $criteria->with=array("idMunicipio0.idEstado0");
+                
+                if ($idOrganizacion!=null) {
+                    $criteria->condition="idOrganizacion = ".$idOrganizacion;
+                }
+                
                 $criteria->compare('concat(t.nombre," ",apellidoPaterno," ",apellidoMaterno)',$this->nombre,true);
 		$criteria->compare('idMunicipio0.nombre',$this->idMunicipio,true);
 		$criteria->compare('idEstado0.nombre',$this->idEstado,true);
-                
-                
-                
+                                                
 		return new CActiveDataProvider(
 		 $this, array(
                     'criteria'=>$criteria,

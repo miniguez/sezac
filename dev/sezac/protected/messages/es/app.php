@@ -18,6 +18,11 @@ return array(
     '_PROGRAMAS'=>'Programas',
     '_USUARIOS'=>'Usuarios',
     '_BENEFICIARIO'=>'Beneficiario', 
-    '_MODIFICAR'=>'Modificar Datos',
-    '_INCRIBIR'=>'Inscribir'
+    '_MODIFICAR'=>'Modificar',
+    '_INCRIBIR'=>'Inscribir',
+    '_LISTADOINSCRIPCIONES'=>'Historial de inscripciones',
+    '_MENSAJECONFIRMARCONCLUIR'=>'¿Desea concluir con éxito?',
+    '_MENSAJECONFIRMARVETAR'=>'¿Desea vetar a la organización o beneficiario?',
+    '_CONCLUIR'=>'Concluir',
+    '_VETAR'=>'Vetar'
  );
