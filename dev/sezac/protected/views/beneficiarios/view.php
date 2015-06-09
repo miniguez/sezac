@@ -13,22 +13,30 @@ array('label'=>'Manage Beneficiarios','url'=>array('admin')),
 );*/
 ?>
 
-<h1>Vista de Beneficiario <?php echo $model->nombre ?></h1>
 
 <?php $this->widget('booster.widgets.TbDetailView',array(
-'data'=>$model,
-'attributes'=>array(
-		
-		'nombre',
-		'apellidoPaterno',
-		'apellidoMaterno',
-		'direccion',
-		'telefono',
-		'idOrganizacion',
-		'idMunicipio',
-		'rfc',
-   
-),
-)); ?>
+    'data'=>$model,
+    'attributes'=>array(
+
+                    'nombre',
+                    'apellidoPaterno',
+                    'apellidoMaterno',
+                    'direccion',
+                    'telefono',
+                    'rfc',
+                    array(
+                        'name'=>'idMunicipio',
+                        'value'=>$model->idMunicipio0->nombre
+
+                    ),
+                    array(
+                        'name'=>'idEstado',
+                         'value'=>$model->idMunicipio0->idEstado0->nombre
+                    ),
+
+    ),
+    ));   
+?>
+<?php echo CHtml::button('Cancelar', array('submit' => array('beneficiarios/admin'))); ?>
 
 

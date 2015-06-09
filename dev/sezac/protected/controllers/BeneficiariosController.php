@@ -4,15 +4,33 @@ class BeneficiariosController extends Controller
 {
 
     public $layout='//layouts/column2';
-    public function filters()
+   public function filters() {
+        return array(
+            array(
+                'application.filters.YXssFilter',
+                'clean' => '*',
+                'tags' => 'strict',
+                'actions' => 'all'
+            ), 'accessControl',
+        );
+    }
+    
+   public function accessRules()
     {
         return array(
-        'accessControl', // perform access control for CRUD operations
-        );
+            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions'=>array('index','view','create','update','admin','delete','getMunicipios'),
+                'expression'=>
+                    ' Yii::app()->user->getState("tipo") == "Encargado"'
+            ),
+            array('deny',  // deny all users
+                'users'=>array('*'),
+            ),
+        );                     
     }
 
 
-    public function accessRules()
+  /* public function accessRules()
     {
         return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
@@ -31,17 +49,23 @@ class BeneficiariosController extends Controller
             'users'=>array('*'),
             ),
         );
-    }
+    }*/
 
 /**
 * Displays a particular model.
 * @param integer $id the ID of the model to be displayed
 */
-    public function actionView($id)
+    public function actionView()
     {
-        $this->render('view',array(
-        'model'=>$this->loadModel($id),
-        ));
+        if (isset($_GET[Keycode::encriptar("id")])) {
+                $id = $_GET[Keycode::encriptar("id")];
+                $this->render('view',array(
+                'model'=>$this->loadModel($id),
+                ));
+               
+        }
+        
+         
     }
 
 /**
@@ -93,6 +117,8 @@ class BeneficiariosController extends Controller
         if (isset($_GET[Keycode::encriptar("id")])) {
                 $id = $_GET[Keycode::encriptar("id")];
                 $model=$this->loadModel($id);
+                $model->idEstado=$model->idMunicipio0->idEstado;
+                
                 $arrBeneficiarios = CHtml::listData(
                     Organizaciones::model()->findAll(),
                     'id',
@@ -103,7 +129,17 @@ class BeneficiariosController extends Controller
                     'id',
                     'nombre'
                 );
-                 $arrMunicipios = array();
+                 $arrMunicipios = CHtml::listData(
+                    Municipios::model()->findAll( 
+                            'idEstado=:param1',
+                            array(
+                                ':param1'=>$model->idEstado
+                            )
+                            
+                            ),
+                    'id',
+                    'nombre'
+                );
 
                 if (isset($_POST["yt0"]) ) {
                     $this->redirect(array('admin'));
