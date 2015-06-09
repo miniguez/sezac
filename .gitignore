@@ -6,3 +6,5 @@ dev/sezac/protected/runtime/*
 dev/sezac/protected/config/*
 #archivos
 dev/sezac/filesAdjuntos/*
+/dev/sezac/nbproject/private/
+/dev/nbproject/private/
