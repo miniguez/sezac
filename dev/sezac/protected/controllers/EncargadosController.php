@@ -48,11 +48,16 @@ array('deny',  // deny all users
 * Displays a particular model.
 * @param integer $id the ID of the model to be displayed
 */
-public function actionView($id)
+public function actionView()
 {
-$this->render('view',array(
-'model'=>$this->loadModel($id),
-));
+    if (isset($_GET[Keycode::encriptar("id")])) {
+            $id = $_GET[Keycode::encriptar("id")];
+            $model=$this->loadModel($id);
+            $this->render('view',array(
+            'model'=>$this->loadModel($id),
+    
+            ));
+    }
 }
 
 /**
@@ -62,7 +67,11 @@ $this->render('view',array(
 public function actionCreate()
 {
 $model=new Encargados;
-
+        $arrDependencias = CHtml::listData(
+            Dependencias::model()->findAll(),
+            'id',
+            'nombre'
+        );
 // Uncomment the following line if AJAX validation is needed
 // $this->performAjaxValidation($model);
 
@@ -80,6 +89,7 @@ if(isset($_POST['Encargados']))
 
 $this->render('create',array(
 'model'=>$model,
+'arrDependencias'=>$arrDependencias,
 ));
 }
 
@@ -93,6 +103,12 @@ public function actionUpdate()
     if (isset($_GET[Keycode::encriptar("id")])) {
             $id = $_GET[Keycode::encriptar("id")];
             $model=$this->loadModel($id);
+            
+             $arrDependencias = CHtml::listData(
+            Dependencias::model()->findAll(),
+            'id',
+            'nombre'
+            );
 
             if (isset($_POST["yt0"]) ) {
                 $this->redirect(array('admin'));
@@ -111,6 +127,7 @@ public function actionUpdate()
 
                 $this->render('update',array(
                 'model'=>$model,
+                'arrDependencias'=>$arrDependencias,
             ));
      } 
 }

@@ -24,8 +24,16 @@ $this->breadcrumbs=array(
 		*/
 array(
     'class'=>'booster.widgets.TbButtonColumn',
-    'template'=>'{editar} {eliminar}', 
+    'template'=>'{ver} {editar} {eliminar}', 
     'buttons'=>array(
+        'ver'=>array(
+            'url'=>'Yii::app()->createUrl("encargados/view",'
+            .'array(Keycode::encriptar("id")=>'
+            .'Keycode::encriptar($data->id)))',
+            'label'=>Yii::t('app', 'View'),
+            'icon'=>'search',
+            'size' => 'small',
+        ),
         'editar'=>array(
             'url'=>'Yii::app()->createUrl("encargados/update",'
             .'array(Keycode::encriptar("id")=>'
