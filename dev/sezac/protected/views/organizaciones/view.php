@@ -24,10 +24,10 @@ $this->breadcrumbs=array(
 'columns'=>array(
     
 		array(
-                    'name'=>'id',
-                   
+                    'name'=>'id'
+                   /*
                     'value'=>$model->beneficiarioses->nombre
-                     
+                   */  
             ),
     
 ),
