@@ -24,5 +24,6 @@ return array(
     '_MENSAJECONFIRMARCONCLUIR'=>'¿Desea concluir con éxito?',
     '_MENSAJECONFIRMARVETAR'=>'¿Desea vetar a la organización o beneficiario?',
     '_CONCLUIR'=>'Concluir',
-    '_VETAR'=>'Vetar'
+    '_VETAR'=>'Vetar',
+     '_Organizaciones'=>'Organizaciones'
  );
