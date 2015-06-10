@@ -22,3 +22,5 @@ $this->breadcrumbs=array(
                 ), 
 ),
 )); ?>
+
+<?php echo CHtml::button('Cancelar', array('submit' => array('admin'))); ?>

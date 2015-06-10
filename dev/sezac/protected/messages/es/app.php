@@ -26,5 +26,6 @@ return array(
     '_CONCLUIR'=>'Concluir',
     '_VETAR'=>'Vetar',
     '_Organizaciones'=>'Organizaciones',
-    '_LISTAVETADOS'=>'Lista de vetados'
+    '_LISTAVETADOS'=>'Lista de vetados',
+    '_IMPRIMIR'=>'Imprimir'
  );

@@ -122,7 +122,12 @@ $this->widget(
                         'label' => Yii::t('app','_MODIFICAR'), 
                         'url' => array('/beneficiarios/formBene'),
                         'visible' =>Yii::app()->user->getState("tipo") == "Beneficiario"
-                    ),                    
+                    ),  
+                    array(
+                        'label' => Yii::t('app','_LISTADOINSCRIPCIONES'), 
+                        'url' => array('/programasBeneficiarios/adminBene'),
+                        'visible' =>Yii::app()->user->getState("tipo") == "Beneficiario"
+                    ), 
                 ),
                 'visible'=>(!Yii::app()->user->isGuest and Yii::app()->user->getState("tipo") == "Beneficiario") 
             ),
