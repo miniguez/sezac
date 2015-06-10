@@ -6,15 +6,19 @@ class ProgramasBeneficiariosController extends Controller
 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 * using two-column layout. See 'protected/views/layouts/column2.php'.
 */
-    public $layout='//layouts/column2';
+    public $layout='//layouts/column1';
 
     /**
 * @return array action filters
 */
-    public function filters()
-    {
+    public function filters() {
         return array(
-        'accessControl', // perform access control for CRUD operations
+            array(
+                'application.filters.YXssFilter',
+                'clean' => '*',
+                'tags' => 'strict',
+                'actions' => 'all'
+            ), 'accessControl',
         );
     }
 
@@ -30,6 +34,11 @@ class ProgramasBeneficiariosController extends Controller
                 'actions'=>array('admin','viewProgramas','viewBeneficiarios','inscribirBenfiOrg','concluir','vetar'),
                 'expression'=>
                     ' Yii::app()->user->getState("tipo") == "Encargado"'
+            ),
+             array('allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions'=>array('adminBene'),
+                'expression'=>
+                    ' Yii::app()->user->getState("tipo") == "Beneficiario"'
             ),
             array('deny',  // deny all users
                 'users'=>array('*'),
@@ -148,6 +157,21 @@ class ProgramasBeneficiariosController extends Controller
 
         $this->render(
             'admin', array(
+            'model'=>$model,
+            )
+        );
+    }
+    
+    public function actionAdminBene()
+    {
+        $model=new ProgramasBeneficiarios('search');
+        $model->unsetAttributes();  // clear any default values
+        if(isset($_GET['ProgramasBeneficiarios'])) {
+            $model->attributes=$_GET['ProgramasBeneficiarios']; 
+        }
+
+        $this->render(
+            'adminBene', array(
             'model'=>$model,
             )
         );

@@ -106,6 +106,11 @@ $this->widget(
                         'url' => array('/programasBeneficiarios/admin'),
                         'visible' =>Yii::app()->user->getState("tipo") == "Encargado"
                     ), 
+                    array(
+                        'label' => Yii::t('app','_LISTAVETADOS'), 
+                        'url' => array('/vetados/admin'),
+                        'visible' =>Yii::app()->user->getState("tipo") == "Encargado"
+                    ), 
                 ),
                 'visible'=>Yii::app()->user->getState("tipo") == "Encargado"
             ),
