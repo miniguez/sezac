@@ -61,7 +61,7 @@ CREATE TABLE `Beneficiarios` (
   KEY `fk_Beneficiarios_Municipios1_idx` (`idMunicipio`),
   CONSTRAINT `fk_Beneficiarios_Municipios1` FOREIGN KEY (`idMunicipio`) REFERENCES `Municipios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Beneficiarios_Organizaciones1` FOREIGN KEY (`idOrganizacion`) REFERENCES `Organizaciones` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `Beneficiarios` (
 
 LOCK TABLES `Beneficiarios` WRITE;
 /*!40000 ALTER TABLE `Beneficiarios` DISABLE KEYS */;
-INSERT INTO `Beneficiarios` VALUES (1,'Beneficiario1','test1','','IIGM7788','','',1,14),(2,'Beneficiario2','test1','','IIGM7788','','',NULL,14);
+INSERT INTO `Beneficiarios` VALUES (1,'Beneficiario1','test1','','IIGM7788','','',1,14),(2,'Beneficiario2','test1','','IIGM7788','','',1,14),(3,'Beneficiario 3','test3','','GHTGM7788','','',NULL,14),(4,'Beneficiario 4','test4','','THTGM7788er','','',NULL,14);
 /*!40000 ALTER TABLE `Beneficiarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,7 +259,7 @@ CREATE TABLE `ProgramasBeneficiarios` (
   CONSTRAINT `fk_ProgramasBeneficiarios_Beneficiarios1` FOREIGN KEY (`idBeneficiario`) REFERENCES `Beneficiarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ProgramasBeneficiarios_Organizaciones1` FOREIGN KEY (`idOrganizacion`) REFERENCES `Organizaciones` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ProgramasBeneficiarios_Programas1` FOREIGN KEY (`idPrograma`) REFERENCES `Programas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,7 +268,7 @@ CREATE TABLE `ProgramasBeneficiarios` (
 
 LOCK TABLES `ProgramasBeneficiarios` WRITE;
 /*!40000 ALTER TABLE `ProgramasBeneficiarios` DISABLE KEYS */;
-INSERT INTO `ProgramasBeneficiarios` VALUES (5,'Beneficiario','EnProceso','2015-06-09',NULL,5,NULL,2),(6,'Organizacion','Concluyo','2015-06-09',NULL,5,1,NULL);
+INSERT INTO `ProgramasBeneficiarios` VALUES (7,'Organizacion','EnProceso','2015-06-10','2015-06-10',5,1,NULL);
 /*!40000 ALTER TABLE `ProgramasBeneficiarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -343,7 +343,7 @@ CREATE TABLE `Vetados` (
   PRIMARY KEY (`id`),
   KEY `fk_Vetados_ProgramasBeneficiarios1_idx` (`idProgramasBeneficiario`),
   CONSTRAINT `fk_Vetados_ProgramasBeneficiarios1` FOREIGN KEY (`idProgramasBeneficiario`) REFERENCES `ProgramasBeneficiarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -354,6 +354,37 @@ LOCK TABLES `Vetados` WRITE;
 /*!40000 ALTER TABLE `Vetados` DISABLE KEYS */;
 /*!40000 ALTER TABLE `Vetados` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'sezac'
+--
+/*!50003 DROP FUNCTION IF EXISTS `isVetado` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `isVetado`(idBeneficiario int) RETURNS int(11)
+BEGIN
+    DECLARE res INT;
+    SET res = 0;
+	select Beneficiarios.id into res from 
+	Beneficiarios
+	left join Organizaciones on Beneficiarios.idOrganizacion = Organizaciones.id
+	left join ProgramasBeneficiarios on (ProgramasBeneficiarios.idBeneficiario = Beneficiarios.id or 
+	ProgramasBeneficiarios.idOrganizacion = Organizaciones.id)
+	where Beneficiarios.id = idBeneficiario and ProgramasBeneficiarios.estatus = "NoConcluyo";
+RETURN res;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -364,4 +395,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-09 15:44:42
+-- Dump completed on 2015-06-10 12:51:38

@@ -157,9 +157,12 @@ class Beneficiarios extends CActiveRecord
             $criteria->join=(
                 "left join Organizaciones on t.idOrganizacion = Organizaciones.id
                  left join ProgramasBeneficiarios on (ProgramasBeneficiarios.idBeneficiario = t.id or
-                    ProgramasBeneficiarios.idOrganizacion = Organizaciones.id ) and ProgramasBeneficiarios.idPrograma=".$idPrograma
+                 ProgramasBeneficiarios.idOrganizacion = Organizaciones.id ) and ProgramasBeneficiarios.idPrograma=".$idPrograma
+                 
+                 
             );
-            $criteria->condition="ProgramasBeneficiarios.id is null";
+            $criteria->condition="ProgramasBeneficiarios.id is null and isVetado(t.id) = 0";
+            $criteria->group="nombre";
             $criteria->compare('t.nombre',$this->nombre,true);            
             $criteria->compare('if(Organizaciones.nombre is null,t.rfc,\'N/A\')',$this->rfc,true);
             $criteria->compare('if(Organizaciones.nombre is null,\'Beneficiario\',\'Organizacion\')',$this->tipo,true);

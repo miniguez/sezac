@@ -143,7 +143,9 @@ class ProgramasBeneficiarios extends CActiveRecord
     public function beforeSave($options = array()) 
     {        
         $this->fecha = date('Y-m-d', strtotime($this->fecha));
-        $this->fechaFin = date('Y-m-d', strtotime($this->fechaFin));
+        if ($this->fechaFin) {
+            $this->fechaFin = date('Y-m-d', strtotime($this->fechaFin));
+        }
         return true;
     }
     /**
