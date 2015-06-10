@@ -40,10 +40,12 @@ class BeneficiariosController extends Controller
 */
     public function actionView()
     {
+      
         if (isset($_GET[Keycode::encriptar("id")])) {
                 $id = $_GET[Keycode::encriptar("id")];
                 $this->render('view',array(
                 'model'=>$this->loadModel($id),
+             
                 ));
                
         }
