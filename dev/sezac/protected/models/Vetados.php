@@ -82,15 +82,43 @@ class Vetados extends CActiveRecord
         // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria=new CDbCriteria;
-
-        $criteria->compare('id', $this->id, true);
-        $criteria->compare('fecha', $this->fecha, true);
-        $criteria->compare('idProgramasBeneficiario', $this->idProgramasBeneficiario, true);
+        $criteria->select="if(
+        Organizaciones.nombre is null,concat(Beneficiarios.nombre,\" \",Beneficiarios.apellidoPaterno,\" \",Beneficiarios.apellidoMaterno),
+        Organizaciones.nombre) as beneficiario,
+        Programas.nombre as programa,
+        t.fecha";
+        $criteria->join="
+            inner join ProgramasBeneficiarios on t.idProgramasBeneficiario = ProgramasBeneficiarios.id
+            inner join Programas on ProgramasBeneficiarios.idPrograma = Programas.id
+            left join Organizaciones on ProgramasBeneficiarios.idOrganizacion = Organizaciones.id
+            left join Beneficiarios on ProgramasBeneficiarios.idBeneficiario = Beneficiarios.id ";        
+        $criteria->compare('t.fecha', $this->fecha, true);
+        $criteria->compare('Programas.nombre', $this->programa, true);
+        $criteria->compare('if(
+        Organizaciones.nombre is null,concat(Beneficiarios.nombre," ",Beneficiarios.apellidoPaterno," ",Beneficiarios.apellidoMaterno),
+        Organizaciones.nombre)', $this->beneficiario, true);
 
         return new CActiveDataProvider(
-            $this, array(
-            'criteria'=>$criteria,
-            )
+           $this, array(
+                    'criteria'=>$criteria,
+                    'sort'=> array(
+                        'defaultOrder' => 't.id DESC',
+                        'attributes'=>
+                            array(
+                                'beneficiario'=>
+                                    array(
+                                        'asc'=>'beneficiario ASC',
+                                        'desc'=>'beneficiario DESC',
+                                    ),   
+                                'programa'=>
+                                    array(
+                                        'asc'=>'programa ASC',
+                                        'desc'=>'programa DESC',
+                                    ),
+                                '*',
+                            ),
+                    ),
+                )
         );
     }
 

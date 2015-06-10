@@ -9,15 +9,15 @@ $this->breadcrumbs=array(
 'id'=>'vetados-grid',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
-'columns'=>array(		
-		'fecha',
-		array(
-                    'name'=>'programa',
-                    'value'=>'$data->idProgramasBeneficiario0->idPrograma0->nombre'
-                ),
+'columns'=>array(
                 array(
                     'name'=>'beneficiario',
-                    'value'=>'$data->idProgramasBeneficiario0->getBeneficiario()'
-                )
+                    'value'=>'$data->beneficiario'
+                ),		
+		array(
+                    'name'=>'programa',
+                    'value'=>'$data->programa'
+                ),
+                'fecha',
 ),
 )); ?>
