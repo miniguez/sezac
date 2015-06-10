@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 
 <?php $this->widget('booster.widgets.TbGridView',array(
 'id'=>'programas-beneficiarios-adminBene-grid',
-'dataProvider'=>$model->search(),
+'dataProvider'=>$model->searchProgramasBeneficiario(Yii::app()->user->getState("idBeneficiario")),
 'filter'=>$model,
 'columns'=>array(	                
                 array(
@@ -17,10 +17,6 @@ $this->breadcrumbs=array(
                     'name'=>'idOrganizacion',
                     'value'=>'($data->idOrganizacion) ? $data->idOrganizacion0->nombre : ""'
                 ),
-                /*array(
-                    'name'=>'idBeneficiario',
-                    'value'=>'($data->idBeneficiario) ? $data->idBeneficiario0->nombre : ""'
-                ),*/
                 array(
                     'name'=>'fecha',
                     'value'=>'$data->fecha'

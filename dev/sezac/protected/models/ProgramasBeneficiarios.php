@@ -183,7 +183,7 @@ class ProgramasBeneficiarios extends CActiveRecord
                 ':param1'=>$idBeneficiario
             );
         } else  {
-            $criteria->condition="idOrganizacion=:param1";
+            $criteria->condition="t.idOrganizacion=:param1";
             $criteria->params=array(
                 ':param1'=>$modelBen->idOrganizacion
             );
