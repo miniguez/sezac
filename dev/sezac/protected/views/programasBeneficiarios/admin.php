@@ -19,7 +19,7 @@ $this->breadcrumbs=array(
                 ),
                 array(
                     'name'=>'idBeneficiario',
-                    'value'=>'($data->idBeneficiario) ? $data->idBeneficiario0->nombre : ""'
+                    'value'=>'($data->idBeneficiario) ? $data->getBeneficiario() : ""'
                 ),
                 array(
                     'name'=>'fecha',

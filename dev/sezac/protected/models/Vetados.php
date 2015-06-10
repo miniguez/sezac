@@ -14,6 +14,7 @@
  */
 class Vetados extends CActiveRecord
 {
+    public $beneficiario,$programa;
     /**
      * @return string the associated database table name
      */
@@ -32,6 +33,7 @@ class Vetados extends CActiveRecord
         return array(
         array('fecha, idProgramasBeneficiario', 'required'),
         array('idProgramasBeneficiario', 'length', 'max'=>10),
+       array('beneficiario,programa', 'length', 'max'=>50),
         // The following rule is used by search().
         // @todo Please remove those attributes that should not be searched.
         array('id, fecha, idProgramasBeneficiario', 'safe', 'on'=>'search'),
@@ -56,9 +58,10 @@ class Vetados extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-        'id' => 'ID',
-        'fecha' => 'Fecha',
-        'idProgramasBeneficiario' => 'Id Programas Beneficiario',
+            'id' => 'ID',
+            'fecha' => 'Fecha',
+            'idProgramasBeneficiario' => 'Programas Beneficiario',
+            'programa'=>'Programa'
         );
     }
 
@@ -79,15 +82,43 @@ class Vetados extends CActiveRecord
         // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria=new CDbCriteria;
-
-        $criteria->compare('id', $this->id, true);
-        $criteria->compare('fecha', $this->fecha, true);
-        $criteria->compare('idProgramasBeneficiario', $this->idProgramasBeneficiario, true);
+        $criteria->select="if(
+        Organizaciones.nombre is null,concat(Beneficiarios.nombre,\" \",Beneficiarios.apellidoPaterno,\" \",Beneficiarios.apellidoMaterno),
+        Organizaciones.nombre) as beneficiario,
+        Programas.nombre as programa,
+        t.fecha";
+        $criteria->join="
+            inner join ProgramasBeneficiarios on t.idProgramasBeneficiario = ProgramasBeneficiarios.id
+            inner join Programas on ProgramasBeneficiarios.idPrograma = Programas.id
+            left join Organizaciones on ProgramasBeneficiarios.idOrganizacion = Organizaciones.id
+            left join Beneficiarios on ProgramasBeneficiarios.idBeneficiario = Beneficiarios.id ";        
+        $criteria->compare('t.fecha', $this->fecha, true);
+        $criteria->compare('Programas.nombre', $this->programa, true);
+        $criteria->compare('if(
+        Organizaciones.nombre is null,concat(Beneficiarios.nombre," ",Beneficiarios.apellidoPaterno," ",Beneficiarios.apellidoMaterno),
+        Organizaciones.nombre)', $this->beneficiario, true);
 
         return new CActiveDataProvider(
-            $this, array(
-            'criteria'=>$criteria,
-            )
+           $this, array(
+                    'criteria'=>$criteria,
+                    'sort'=> array(
+                        'defaultOrder' => 't.id DESC',
+                        'attributes'=>
+                            array(
+                                'beneficiario'=>
+                                    array(
+                                        'asc'=>'beneficiario ASC',
+                                        'desc'=>'beneficiario DESC',
+                                    ),   
+                                'programa'=>
+                                    array(
+                                        'asc'=>'programa ASC',
+                                        'desc'=>'programa DESC',
+                                    ),
+                                '*',
+                            ),
+                    ),
+                )
         );
     }
 
@@ -100,5 +131,16 @@ class Vetados extends CActiveRecord
     public static function model($className=__CLASS__)
     {
         return parent::model($className);
+    }
+    /**
+     * @objetivo Antes de mostrar los resultados de 
+     * la busqueda cambiar el formato de las fechas a dd-mm-yyyy
+     * @param type $options
+     * @return boolean
+     */
+    public function afterFind($options = array()) 
+    {
+        $this->fecha = date('d-m-Y', strtotime($this->fecha));        
+        return true;
     }
 }

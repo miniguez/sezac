@@ -25,5 +25,6 @@ return array(
     '_MENSAJECONFIRMARVETAR'=>'¿Desea vetar a la organización o beneficiario?',
     '_CONCLUIR'=>'Concluir',
     '_VETAR'=>'Vetar',
-     '_Organizaciones'=>'Organizaciones'
+    '_Organizaciones'=>'Organizaciones',
+    '_LISTAVETADOS'=>'Lista de vetados'
  );
