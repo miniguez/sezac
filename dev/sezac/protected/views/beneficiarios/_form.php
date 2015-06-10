@@ -39,7 +39,10 @@
                         'options' => array(
                             'placeholder' => 'Seleccione', 
                             'allowClear' => true,                     
-                        )                
+                        ) , 
+                     'htmlOptions' => array(  
+                          'prompt'=>'Seleccione',
+                     ) 
                     )
                 )
             );
