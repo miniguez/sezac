@@ -185,4 +185,30 @@ class Beneficiarios extends CActiveRecord
             );
                        
         }
+        /**
+         * Funcion para saber si un beneficiario esta vetado
+         */
+        public function isVetado() 
+        {
+            $programasBeneficiarios = false;
+            if($this->idOrganizacion) {
+                $programasBeneficiarios = ProgramasBeneficiarios::model()->find(
+                        'idOrganizacion=:param1 and estatus="NoConcluyo"',
+                        array(
+                            ':param1'=>  $this->idOrganizacion
+                        )
+                );
+            } else {
+                $programasBeneficiarios = ProgramasBeneficiarios::model()->find(
+                        'idBeneficiario:=param1 and estatus="NoConcluyo"',
+                        array(
+                            ':param1'=>  $this->id
+                        )
+                );
+            } 
+            if ($programasBeneficiarios) {
+                return true;
+            }
+            return false;
+        }
 }
