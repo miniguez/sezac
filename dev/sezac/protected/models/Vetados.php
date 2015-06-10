@@ -15,6 +15,7 @@
 class Vetados extends CActiveRecord
 {
     public $beneficiario,$programa;
+    public $a1,$a2,$a3;
     /**
      * @return string the associated database table name
      */

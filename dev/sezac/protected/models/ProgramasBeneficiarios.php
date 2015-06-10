@@ -23,6 +23,7 @@ class ProgramasBeneficiarios extends CActiveRecord
     /**
      * @return string the associated database table name
      */
+    public $a1,$a2,$a3,$a4,$a5,$a6;
     public function tableName()
     {
         return 'ProgramasBeneficiarios';
@@ -70,7 +71,7 @@ class ProgramasBeneficiarios extends CActiveRecord
         'tipo' => 'Tipo',
         'estatus' => 'Estatus',
         'idPrograma' => 'Programa',
-        'idOrganizacion' => 'Organizacion',
+        'idOrganizacion' => 'Organización',
         'idBeneficiario' => 'Beneficiario',
         'fecha'=>'Fecha inicio',
         'fechaFin'=>'Fecha final'
@@ -202,4 +203,51 @@ class ProgramasBeneficiarios extends CActiveRecord
             )
         );
     }
+    /**
+    * @name imprimeReporte    
+    * @return: array
+    */    
+    public function imprimeReporte() 
+    {
+        $resultado = array();
+        $criteria = new CDbCriteria;
+        $criteria->select = '
+            Programas.nombre as a1,
+            Organizaciones.nombre as a2,
+            concat(Beneficiarios.nombre," ",Beneficiarios.apellidoPaterno," ",Beneficiarios.apellidoMaterno) as a3,
+            date_format(fecha,"%d-%m-%Y") as a4,
+            date_format(fechaFin,"%d-%m-%Y") as a5,
+            t.estatus as a6';                
+        $criteria->join = 'inner join Programas on t.idPrograma = Programas.id
+        left join Organizaciones on t.idOrganizacion = Organizaciones.id
+        left join Beneficiarios on t.idBeneficiario = Beneficiarios.id';
+        
+        $resultado = $this->findAll($criteria);
+
+        return $resultado;
+    }
+    /**
+    * @name Vetados
+    * @return: array
+    */    
+    public function vetados() 
+    {
+        $resultado = array();
+        $criteria = new CDbCriteria;
+        
+        $criteria->select = '
+            if(ProgramasBeneficiarios.idBeneficiario, concat(Beneficiarios.nombre," ",Beneficiarios.apellidoPaterno," ",Beneficiarios.apellidoMaterno), Organizaciones.nombre) as a1,
+            Programas.nombre as a2,                                    
+            date_format(fechaFin,"%d-%m-%Y") as a3
+            ';                
+        $criteria->join =
+        'inner join ProgramasBeneficiarios on t.idProgramasBeneficiario = ProgramasBeneficiarios.id
+        inner join Programas on ProgramasBeneficiarios.idPrograma = Programas.id
+        left join Organizaciones on ProgramasBeneficiarios.idOrganizacion = Organizaciones.id
+        left join Beneficiarios on ProgramasBeneficiarios.idBeneficiario = Beneficiarios.id';
+        
+        $resultado = Vetados::model()->findAll($criteria);
+
+        return $resultado;
+    }    
 }

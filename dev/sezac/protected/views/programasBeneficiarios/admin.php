@@ -3,7 +3,22 @@ $this->breadcrumbs=array(
 	Yii::t('app', '_LISTADOINSCRIPCIONES'),        
 );
 ?>
-
+<br>
+<div align="right">
+    <?php
+    $this->widget('booster.widgets.TbButtonGroup', array(
+        'size' => 'mini',
+        'buttons' => array(            
+            array(
+                'icon' => 'print',
+                'label' => Yii::t('app', '_IMPRIMIR'),
+                'buttonType' => 'link',
+                'url' => array('reportes/rptInscripciones'),                
+            ),    
+        )
+    ));
+    ?>
+</div>
 <?php $this->widget('booster.widgets.TbGridView',array(
 'id'=>'programas-beneficiarios-grid',
 'dataProvider'=>$model->search(),
@@ -62,3 +77,5 @@ array(
 ),
 ),
 )); ?>
+
+
