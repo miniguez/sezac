@@ -31,7 +31,7 @@ public function accessRules()
     {
         return array(
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions'=>array('index','create','update','admin','delete'),
+                'actions'=>array('index','create','update','admin','delete','view'),
                 'expression'=>
                     ' Yii::app()->user->getState("tipo") == "Encargado"'
             ),
