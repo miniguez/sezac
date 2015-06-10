@@ -161,4 +161,13 @@ class ProgramasBeneficiarios extends CActiveRecord
         return false;
     }
     
+    public function getBeneficiario()
+    {
+        if ($this->idOrganizacion!="") {
+            return $this->idOrganizacion0->nombre;    
+        } else if ($this->idBeneficiario!="") {
+            return $this->idBeneficiario0->nombre." ".$this->idBeneficiario0->apellidoPaterno." ".$this->idBeneficiario0->apellidoMaterno;
+        }
+    }
+    
 }

@@ -14,6 +14,7 @@
  */
 class Vetados extends CActiveRecord
 {
+    public $beneficiario,$programa;
     /**
      * @return string the associated database table name
      */
@@ -32,6 +33,7 @@ class Vetados extends CActiveRecord
         return array(
         array('fecha, idProgramasBeneficiario', 'required'),
         array('idProgramasBeneficiario', 'length', 'max'=>10),
+       array('beneficiario,programa', 'length', 'max'=>50),
         // The following rule is used by search().
         // @todo Please remove those attributes that should not be searched.
         array('id, fecha, idProgramasBeneficiario', 'safe', 'on'=>'search'),
@@ -56,9 +58,10 @@ class Vetados extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-        'id' => 'ID',
-        'fecha' => 'Fecha',
-        'idProgramasBeneficiario' => 'Id Programas Beneficiario',
+            'id' => 'ID',
+            'fecha' => 'Fecha',
+            'idProgramasBeneficiario' => 'Programas Beneficiario',
+            'programa'=>'Programa'
         );
     }
 
@@ -100,5 +103,16 @@ class Vetados extends CActiveRecord
     public static function model($className=__CLASS__)
     {
         return parent::model($className);
+    }
+    /**
+     * @objetivo Antes de mostrar los resultados de 
+     * la busqueda cambiar el formato de las fechas a dd-mm-yyyy
+     * @param type $options
+     * @return boolean
+     */
+    public function afterFind($options = array()) 
+    {
+        $this->fecha = date('d-m-Y', strtotime($this->fecha));        
+        return true;
     }
 }
