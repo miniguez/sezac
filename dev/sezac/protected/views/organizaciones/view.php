@@ -9,9 +9,6 @@ $this->breadcrumbs=array(
 <?php $this->widget('booster.widgets.TbDetailView',array(
 'data'=>$model,
 'attributes'=>array(
-    /*
-		'id',
-     */
 		'nombre',   
 ),
 )); ?>
@@ -19,16 +16,13 @@ $this->breadcrumbs=array(
 
 <?php $this->widget('booster.widgets.TbGridView',array(
 'id'=>'organizaciones-grid',
-'dataProvider'=>$model->search($model->id),
-'filter'=>$model,
+'dataProvider'=>$modelbeneficiarios->search($model->id),
+'filter'=>$modelbeneficiarios,
 'columns'=>array(
-    
 		array(
-                    'name'=>'id'
-                   /*
-                    'value'=>$model->beneficiarioses->nombre
-                   */  
+                    'name'=>'nombre',                  
+                     'value'=>'$data->nombre'
+                   
             ),
-    
 ),
 )); ?>
