@@ -170,4 +170,34 @@ class ProgramasBeneficiarios extends CActiveRecord
         }
     }
     
+    public function searchProgramasBeneficiario($idBeneficiario)
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
+        $criteria=new CDbCriteria;
+        $modelBen = Beneficiarios::model()->findByPK($idBeneficiario);
+        $criteria->with = array("idPrograma0","idOrganizacion0","idBeneficiario0"); 
+        if ($modelBen->idOrganizacion == "") {
+            $criteria->condition="idBeneficiario=:param1";
+            $criteria->params=array(
+                ':param1'=>$idBeneficiario
+            );
+        } else  {
+            $criteria->condition="idOrganizacion=:param1";
+            $criteria->params=array(
+                ':param1'=>$modelBen->idOrganizacion
+            );
+        }
+        $criteria->compare('tipo', $this->tipo, true);
+        $criteria->compare('estatus', $this->estatus, true);
+        $criteria->compare('idPrograma0.nombre', $this->idPrograma, true);
+        $criteria->compare('idOrganizacion0.nombre', $this->idOrganizacion, true);
+        $criteria->compare('concat(idBeneficiario0.nombre," ",idBeneficiario0.apellidoPaterno," ",idBeneficiario0.apellidoMaterno)', $this->idBeneficiario, true);
+        $criteria->compare('DATE_FORMAT(fecha,"%d-%m-%Y")', $this->fecha, true);
+        return new CActiveDataProvider(
+            $this, array(
+            'criteria'=>$criteria,
+            )
+        );
+    }
 }
