@@ -31,6 +31,11 @@ class ProgramasBeneficiariosController extends Controller
                 'expression'=>
                     ' Yii::app()->user->getState("tipo") == "Encargado"'
             ),
+             array('allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions'=>array('adminBene'),
+                'expression'=>
+                    ' Yii::app()->user->getState("tipo") == "Beneficiario"'
+            ),
             array('deny',  // deny all users
                 'users'=>array('*'),
             ),
@@ -148,6 +153,21 @@ class ProgramasBeneficiariosController extends Controller
 
         $this->render(
             'admin', array(
+            'model'=>$model,
+            )
+        );
+    }
+    
+    public function actionAdminBene()
+    {
+        $model=new ProgramasBeneficiarios('search');
+        $model->unsetAttributes();  // clear any default values
+        if(isset($_GET['ProgramasBeneficiarios'])) {
+            $model->attributes=$_GET['ProgramasBeneficiarios']; 
+        }
+
+        $this->render(
+            'adminBene', array(
             'model'=>$model,
             )
         );
