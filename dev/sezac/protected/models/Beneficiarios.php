@@ -200,7 +200,7 @@ class Beneficiarios extends CActiveRecord
                 );
             } else {
                 $programasBeneficiarios = ProgramasBeneficiarios::model()->find(
-                        'idBeneficiario:=param1 and estatus="NoConcluyo"',
+                        'idBeneficiario=:param1 and estatus="NoConcluyo"',
                         array(
                             ':param1'=>  $this->id
                         )

@@ -31,7 +31,7 @@ class UnidadesResponsablesController extends Controller
     {
         return array(
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions'=>array('index','create','update','admin','delete'),
+                'actions'=>array('index','create','update','admin','delete','getEncargados'),
                 'expression'=>
                     ' Yii::app()->user->getState("tipo") == "Administrador"'
             ),
