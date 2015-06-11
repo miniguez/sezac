@@ -71,7 +71,7 @@ class Encargados extends CActiveRecord
         'apellidoMaterno' => 'Apellido Materno',
         'numEmpleado' => 'Num Empleado',
         'telefono' => 'Telefono',
-        'idDependencia' => 'Id Dependecia',
+        'idDependencia' => 'Dependecia',
         );
     }
 

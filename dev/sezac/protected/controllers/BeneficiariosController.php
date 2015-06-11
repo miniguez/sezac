@@ -79,7 +79,9 @@ class BeneficiariosController extends Controller
         if(isset($_POST['Beneficiarios']))
         {
         $model->attributes=$_POST['Beneficiarios'];
-
+        if ($model->idOrganizacion=="") {
+            $model->idOrganizacion= null;
+        }
         if($model->save()){
             Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se creó correctamente.'));     
             $this->redirect(array('admin'));
@@ -135,6 +137,9 @@ class BeneficiariosController extends Controller
                 if(isset($_POST['Beneficiarios']))
                 {
                 $model->attributes=$_POST['Beneficiarios'];
+                if ($model->idOrganizacion=="") {
+            $model->idOrganizacion= null;
+        }
                 if($model->save())
                     Yii::app()->user->setFlash('info', array('title' => 'Operación exitosa!', 'text' => 'El Registro se guardó correctamente.'));
                 $this->redirect(array('admin'));
